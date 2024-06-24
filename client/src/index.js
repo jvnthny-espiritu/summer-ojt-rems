@@ -5,6 +5,7 @@ import './index.css';
 //import App from './App';
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
+import AdminHome from "./pages/admin_home/AdminHome";
 import reportWebVitals from './reportWebVitals';
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/">
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
+          <Route path="admin" element={<AdminHome />} />
           {/* <Route path="*" element={<NoPage />} /> */}
         </Route>
       </Routes>
