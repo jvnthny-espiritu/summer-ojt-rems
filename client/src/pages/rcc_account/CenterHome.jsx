@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
+import DeviceInfo from "./DeviceInfo";
 
 const AdminHome = () => {
     return (
@@ -14,6 +17,17 @@ const AdminHome = () => {
 };
 
 const UserHome = () => {
+    const [open, setOpen] = useState(false);
+    const [currentDevice, setCurrentDevice] = useState(null);
+    const handleOpen = (device) => {
+        setCurrentDevice(device);
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setCurrentDevice(null);
+        setOpen(false);
+    };
+    const openState = open
     const devices = [
         {id:1, type:"3D Printer", name:"Ultimaker1"},
         {id:2, type:"3D Printer", name:"Ultimaker2"},
@@ -48,7 +62,10 @@ const UserHome = () => {
                                     {device.name}
                                 </p>
                                 {/* Change to links later */}
-                                <button class="p-1 bg-black rounded-md text-white w-1/3 text-sm hover:bg-blue-950">View</button>
+                                <Button class="p-1 bg-black rounded-md text-white w-1/3 text-sm hover:bg-blue-950" onClick={() => handleOpen(device)}>View</Button>
+                                {currentDevice && (
+                                    <DeviceInfo open={openState} handleClose={handleClose} device={currentDevice ? currentDevice : ""}/>
+                                )}
                             </div>
                         </li>
                         ))}
