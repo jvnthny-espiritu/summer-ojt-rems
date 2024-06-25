@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('available', 'work-in-progress', 'for repair'),
       allowNull: false,
     },
+  }, {
+    timestamps: true,
   });
+
   return Equipment;
 };

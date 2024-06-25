@@ -1,19 +1,15 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../config/database');
-
+const sequelize = require('../config/db.config');
 const Equipment = require('./Equipment')(sequelize, Sequelize);
 const ResearchCenter = require('./ResearchCenter')(sequelize, Sequelize);
-const User = require('./User')(sequelize, Sequelize);
+const Admin = require('./Admin')(sequelize, Sequelize);
 
-ResearchCenter.hasMany(Equipment, { as: 'Equipments' });
-Equipment.belongsTo(ResearchCenter, {
-  foreignKey: 'researchCenterId',
-  as: 'researchCenter',
-});
+ResearchCenter.hasMany(Equipment, { foreignKey: 'researchCenterId', as: 'equipments' });
+Equipment.belongsTo(ResearchCenter, { foreignKey: 'researchCenterId', as: 'researchCenter' });
 
 module.exports = {
-  sequelize,
   Equipment,
   ResearchCenter,
-  User,
+  Admin,
+  sequelize,
 };
