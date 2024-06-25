@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const CenterHome = () => {
+const AdminHome = () => {
+    return (
+        <div class = "w-full">
+            <div>
+                <p>Welcome {"Admin"}</p>
+            </div>
+            <div>
+            </div>
+        </div>
+    );
+};
+
+const UserHome = () => {
     const devices = [
         {id:1, type:"3D Printer", name:"Ultimaker1"},
         {id:2, type:"3D Printer", name:"Ultimaker2"},
@@ -19,25 +31,48 @@ const CenterHome = () => {
         current[device.type].push(device);
         return current;
     }, {});
-    return (
+    return(
         <div class = "w-full">
-            <div>
+            <div class="flex flex-col items-center bg-zinc-400 p-6">
                 <p>Welcome {"MRC_00"}</p>
             </div>
-            <div>
+            <div class="flex flex-col p-6">
                 {Object.keys(deviceTypes).map((type) => (
                     <div key={type}>
-                    <h3>{type}</h3>
-                    <ul>
+                    <h3 class="text-lg mt-8 font-bold">{type}</h3>
+                    <ul class="w-2/5">
                         {deviceTypes[type].map((device) => (
-                        <li key={device.id}>{device.name}</li>
+                        <li key={device.id}>
+                            <div class="w-1.8/2 text-md mt-2 grid grid-cols-3">
+                                <p class="p-1 mr-7 ml-5 col-span-2">
+                                    {device.name}
+                                </p>
+                                {/* Change to links later */}
+                                <button class="p-1 bg-black rounded-md text-white w-1/3 text-sm hover:bg-blue-950">View</button>
+                            </div>
+                        </li>
                         ))}
                     </ul>
                     </div>
                 ))}
             </div>
         </div>
-    );
+    )
 };
 
-export default CenterHome;
+const StaffHome = () => {
+    let content;
+    // change later when login logic is complete
+    if(false){
+        content = <AdminHome />
+    }else {
+        content = <UserHome />
+    }
+    return (
+        <div>
+            {content}
+        </div>
+    )
+}
+
+export default StaffHome;
