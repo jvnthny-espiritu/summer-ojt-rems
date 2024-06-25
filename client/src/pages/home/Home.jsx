@@ -6,7 +6,7 @@ const Home = () => {
     "MRC", 
     "MTCC", 
     "GIS",
-    "ESRC ", 
+    "ESRC", 
     "CTI", 
     "DTC"
   ];
@@ -17,7 +17,7 @@ const Home = () => {
         {branches.map( branch => (
           <button className="m-10">{branch}</button>
         ))}
-      </ul>
+      </ul> 
     </>   
   );
 };
