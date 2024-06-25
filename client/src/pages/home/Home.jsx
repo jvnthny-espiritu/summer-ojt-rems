@@ -1,39 +1,23 @@
+import Nav from "../../components/NavBar";
+
 const Home = () => {
+  // should be requested from backend before list is rendered
+  const branches = [
+    "MRC", 
+    "MTCC", 
+    "GIS",
+    "ESRC ", 
+    "CTI", 
+    "DTC"
+  ];
+
   return (
     <>
-      <div>
-        <h2>
-          3D Printers
-        </h2>
-        <ul>
-          <li>Ultimaker</li>
-          <li>Ultimaker</li>
-          <li>Creality</li>
-        </ul>
-      </div>
-
-      <div>
-        <h2>
-          CNC Machines        
-        </h2>
-        <ul>
-          <li>Ultimaker</li>
-          <li>Ultimaker</li>
-          <li>Creality</li>
-        </ul>
-      </div>
-
-      <div>
-        <h2>
-          CNC Machines        
-        </h2>
-        <ul>
-          <li>Ultimaker</li>
-          <li>Ultimaker</li>
-          <li>Creality</li>
-        </ul>
-      </div>
-
+      <ul className="flex size-full place-content-center">
+        {branches.map( branch => (
+          <button className="m-10">{branch}</button>
+        ))}
+      </ul>
     </>   
   );
 };
