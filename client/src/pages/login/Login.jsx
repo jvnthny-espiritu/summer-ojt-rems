@@ -21,6 +21,7 @@ const Login = () => {
     };
 
     return (
+        // TODO Make conditional -- switch between admin or user
         <div class = "w-full">
             <div>
                 <Header />

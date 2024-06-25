@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import DeviceInfo from "./DeviceInfo";
 
@@ -46,6 +45,7 @@ const UserHome = () => {
         return current;
     }, {});
     return(
+        // TODO make dynamic
         <div class = "w-full">
             <div class="flex flex-col items-center bg-zinc-400 p-6">
                 <p>Welcome {"MRC_00"}</p>
