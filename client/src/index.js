@@ -7,7 +7,6 @@ import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
 import AdminHome from "./pages/admin_home/AdminHome";
 import CenterHome from "./pages/rcc_account/CenterHome";
-import reportWebVitals from './reportWebVitals';
 
 export default function App() {
   return (
