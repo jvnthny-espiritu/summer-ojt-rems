@@ -19,8 +19,7 @@ export default function App() {
         </Route>
       </Routes>
 
-      <Routes>
-        <Route index path="/" element={ <Home /> } />
+        {/* <Route index path="/" element={ <Home /> } />
         
         <Route path="/center">
           <Route path=":center" element= { <CenterHome /> } />
@@ -28,11 +27,11 @@ export default function App() {
         
         <Route path="/account">
           <Route index element={ <Login /> } />
-        </Route>
+        </Route> */}
         
         {/* <Route path="/admin" element={<AdminHome />} /> */}  
         {/* <Route path="*" element={<NoPage />} /> */}
-      </Routes>
+      
     </>
   );
 }
