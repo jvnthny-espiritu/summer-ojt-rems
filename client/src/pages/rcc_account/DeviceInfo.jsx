@@ -24,14 +24,14 @@ const DeleteDialog = ({openState, handleDeleteClose}) =>{
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description">
             <Box sx={{ ...style, width: 300 }}>
-                <div class="flex flex-col items-center">
-                    <p id="child-modal-description" class="mt-4 mb-3">
+                <div className="flex flex-col items-center">
+                    <p id="child-modal-description" className="mt-4 mb-3">
                         Are you sure?
                     </p>
-                    <div class="flex flex-row gap-8 mt-5 mb-1">
+                    <div className="flex flex-row gap-8 mt-5 mb-1">
                         {/* TODO Change save when backend is implemented */}
-                        <Button onClick={handleDeleteClose} class="p-1 bg-black rounded-md text-white w-20 text-md hover:bg-white hover:text-black">Yes</Button>
-                        <Button onClick={handleDeleteClose} class="p-1 bg-black rounded-md text-white w-20 text-md hover:bg-white hover:text-black">No</Button>
+                        <Button onClick={handleDeleteClose} className="p-1 bg-black rounded-md text-white w-20 text-md hover:bg-white hover:text-black">Yes</Button>
+                        <Button onClick={handleDeleteClose} className="p-1 bg-black rounded-md text-white w-20 text-md hover:bg-white hover:text-black">No</Button>
                     </div>
                 </div>
             </Box>
@@ -68,38 +68,38 @@ const DeviceInfo = ({open,handleClose,device}) => {
             hideBackdrop = {true}
             >
             <Box sx={{ ...style, width: 500 }}>
-                <div class="text-md mt-2 grid grid-cols-3">
-                    <h2 id="child-modal-title" class="col-span-2">{device.name}</h2> 
-                    <Button onClick={handleClose} class="text-red-600">EXIT</Button>
+                <div className="text-md mt-2 grid grid-cols-3">
+                    <h2 id="child-modal-title" className="col-span-2">{device.name}</h2> 
+                    <Button onClick={handleClose} className="text-red-600">EXIT</Button>
                 </div>
                 
                     {editable?(
-                        <div class="mt-3">
+                        <div className="mt-3">
                             <div>
-                                <div class="flex flex-row gap-3">
-                                    <p class="mt-3"> Status: </p><TextField label="Status" variant="outlined" size = "small" margin="dense"></TextField>
+                                <div className="flex flex-row gap-3">
+                                    <p className="mt-3"> Status: </p><TextField label="Status" variant="outlined" size = "small" margin="dense"></TextField>
                                 </div>
-                                <div class="flex flex-row gap-3">
-                                    <p class="mt-4"> Last Used: </p> <TextField label="Last Used" variant="outlined" size = "small" margin="dense"></TextField>
+                                <div className="flex flex-row gap-3">
+                                    <p className="mt-4"> Last Used: </p> <TextField label="Last Used" variant="outlined" size = "small" margin="dense"></TextField>
                                 </div>
-                                <div class="flex flex-row gap-3">
-                                    <p class="mt-4">Device Model: </p> <TextField label="Device Model" variant="outlined" size = "small" margin="dense"></TextField>
+                                <div className="flex flex-row gap-3">
+                                    <p className="mt-4">Device Model: </p> <TextField label="Device Model" variant="outlined" size = "small" margin="dense"></TextField>
                                 </div>
-                                <div class="flex flex-row gap-3">
-                                    <p class="mt-4">Serial #: </p><TextField label="Serial No." variant="outlined" size = "small" margin="dense"></TextField>
+                                <div className="flex flex-row gap-3">
+                                    <p className="mt-4">Serial #: </p><TextField label="Serial No." variant="outlined" size = "small" margin="dense"></TextField>
                                 </div>
-                                <div class="flex flex-row gap-3">
-                                    <p class="mt-4"> Property #: </p><TextField label="Property No." variant="outlined" size = "small" margin="dense"></TextField>
+                                <div className="flex flex-row gap-3">
+                                    <p className="mt-4"> Property #: </p><TextField label="Property No." variant="outlined" size = "small" margin="dense"></TextField>
                                 </div>
                             </div>
-                            <div class="flex flex-row-reverse gap-4 mt-5 mb-1">
-                                <Button onClick={handleClose} class="p-1 bg-black rounded-md text-white w-1/4 text-sm hover:bg-white hover:text-black">Save</Button>
-                                <Button onClick={closeEditable} class="p-1 bg-black rounded-md text-white w-1/5 text-md hover:bg-white hover:text-black">Cancel</Button>
+                            <div className="flex flex-row-reverse gap-4 mt-5 mb-1">
+                                <Button onClick={handleClose} className="p-1 bg-black rounded-md text-white w-1/4 text-sm hover:bg-white hover:text-black">Save</Button>
+                                <Button onClick={closeEditable} className="p-1 bg-black rounded-md text-white w-1/5 text-md hover:bg-white hover:text-black">Cancel</Button>
                             </div>
                         </div>
                     ): (
                         // TODO make dynamic
-                        <div class="mt-3">
+                        <div className="mt-3">
                             <div>
                                 <p id="child-modal-description">
                                     Status: {}
@@ -117,9 +117,9 @@ const DeviceInfo = ({open,handleClose,device}) => {
                                     Property #: {}
                                 </p>
                             </div>
-                            <div class="flex flex-row-reverse gap-4 mt-5 mb-1">
-                                <Button onClick={handleDeleteOpen} class="p-1 bg-black rounded-md text-white w-1/4 text-sm hover:bg-white hover:text-black">Remove Device</Button>
-                                <Button onClick={handleEditable} class="p-1 bg-black rounded-md text-white w-1/5 text-md hover:bg-white hover:text-black">Edit</Button>
+                            <div className="flex flex-row-reverse gap-4 mt-5 mb-1">
+                                <Button onClick={handleDeleteOpen} className="p-1 bg-black rounded-md text-white w-1/4 text-sm hover:bg-white hover:text-black">Remove Device</Button>
+                                <Button onClick={handleEditable} className="p-1 bg-black rounded-md text-white w-1/5 text-md hover:bg-white hover:text-black">Edit</Button>
                                 { deleteOpen && (
                                     <DeleteDialog openState={deleteOpen} handleDeleteClose={handleDeleteClose} />
                                 )}

@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 
 const AdminHome = () => {
     return (
-        <div class = "w-full">
+        <div className = "w-full">
             <div>
                 <p>Welcome {"Admin"}</p>
             </div>

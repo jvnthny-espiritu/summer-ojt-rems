@@ -95,7 +95,7 @@ const EditRc = ({editOpenState,handleEditOpenState, researchCenterInfo}) => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                placeholder={researchCenterInfo.password}
+                                placeholder="Password"
                             />
                             <label htmlFor="reEnterPassword">Re-enter Password</label>
                             <input class="border-2 border-zinc-600 opacity-85 hover:border-black rounded-lg my-2 ml-3 p-2"
