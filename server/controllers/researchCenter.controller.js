@@ -1,92 +1,87 @@
 const { ResearchCenter } = require('../models');
 const bcrypt = require('bcrypt');
 
-const getAllResearchCenters = async (req, res, next) => {
-    try {
-      const researchCenters = await ResearchCenter.findAll();
-      res.status(200).json(researchCenters);
-    } catch (error) {
-      next(error);
+// Get all research center
+exports.getAllResearchCenters = async (req, res, next) => {
+  try {
+    const researchCenters = await ResearchCenter.findAll();
+    res.status(200).json(researchCenters);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get research center by id
+exports.getResearchCenterById = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const researchCenter = await ResearchCenter.findByPk(id);
+    if (!researchCenter) {
+      return res.status(404).json({ message: 'Research center not found' });
     }
-  };
-  
-  const getResearchCenterById = async (req, res, next) => {
-    const { id } = req.params;
-    try {
-      const researchCenter = await ResearchCenter.findByPk(id);
-      if (!researchCenter) {
-        return res.status(404).json({ message: 'Research center not found' });
-      }
-      res.status(200).json(researchCenter);
-    } catch (error) {
-      next(error);
+    res.status(200).json(researchCenter);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Create research center
+exports.createResearchCenter = async (req, res, next) => {
+  const { code, name, password } = req.body
+  try {
+    if (!password) {
+      return res.status(400).json({ message: 'Password is required' });
     }
-  };
-  
-  const createResearchCenter = async (req, res, next) => {
-    const { code, name, password } = req.body
-    try {
-        if (!password) {
-            return res.status(400).json({ message: 'Password is required' });
-          }
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        const newResearchCenter = await ResearchCenter.create({
-            code,
-            name,
-            password: hashedPassword,
-        });
-        res.status(201).json(newResearchCenter);
-    } catch (error) {
-        next(error);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const newResearchCenter = await ResearchCenter.create({
+      code,
+      name,
+      password: hashedPassword,
+    });
+    res.status(201).json(newResearchCenter);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Update research center
+exports.updateResearchCenter = async (req, res, next) => {
+  const { id } = req.params;
+  const { code, name, password } = req.body;
+  try {
+    const researchCenter = await ResearchCenter.findByPk(id);
+    if (!researchCenter) {
+      return res.status(404).json({ message: 'Research center not found' });
     }
-  };
-  
-  const updateResearchCenter = async (req, res, next) => {
-    const { id } = req.params;
-    const { code, name, password } = req.body;
-    try {
-      const researchCenter = await ResearchCenter.findByPk(id);
-      if (!researchCenter) {
-        return res.status(404).json({ message: 'Research center not found' });
-      }
-  
-      // Update fields
-      researchCenter.code = code;
-      researchCenter.name = name;
-  
-      // Update password if provided
-      if (password) {
-        const salt = await bcrypt.genSalt(10);
-        researchCenter.password = await bcrypt.hash(password, salt);
-      }
-  
-      await researchCenter.save();
-  
-      res.status(200).json(researchCenter);
-    } catch (error) {
-      next(error);
+
+    researchCenter.code = code;
+    researchCenter.name = name;
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      researchCenter.password = await bcrypt.hash(password, salt);
     }
-  };
-  
-  const deleteResearchCenter = async (req, res, next) => {
-    const { id } = req.params;
-    try {
-      const researchCenter = await ResearchCenter.findByPk(id);
-      if (!researchCenter) {
-        return res.status(404).json({ message: 'Research center not found' });
-      }
-      await researchCenter.destroy();
-      res.status(204).end();
-    } catch (error) {
-      next(error);
+
+    await researchCenter.save();
+
+    res.status(200).json(researchCenter);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Delete research center
+exports.deleteResearchCenter = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const researchCenter = await ResearchCenter.findByPk(id);
+    if (!researchCenter) {
+      return res.status(404).json({ message: 'Research center not found' });
     }
-  };
-  
-  module.exports = {
-    getAllResearchCenters,
-    getResearchCenterById,
-    createResearchCenter,
-    updateResearchCenter,
-    deleteResearchCenter,
-  };
+    await researchCenter.destroy();
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
