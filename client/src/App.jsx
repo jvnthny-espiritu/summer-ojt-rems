@@ -19,6 +19,7 @@ export default function App() {
         </Route>
       </Routes>
 
+        {/* <Route index path="/" element={ <Home /> } />
       {/* <Routes>
         <Route index path="/" element={ <Home /> } />
         
@@ -32,7 +33,7 @@ export default function App() {
         
         {/* <Route path="/admin" element={<AdminHome />} /> */}  
         {/* <Route path="*" element={<NoPage />} /> */}
-      {/* </Routes> */}
+      
     </>
   );
 }
