@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 const Header = () => {
     return (
@@ -60,7 +59,7 @@ const UserLogin = ({handleAdminLogin}) => {
                         </div>
                     </form>
                     <div className="flex flex-row-reverse my-20 mr-3">
-                        <Button onClick={handleAdminLogin} className="text-red-700 border-2 rounded-lg border-red-700 w-16">Admin</Button>
+                        <button onClick={handleAdminLogin} className="text-red-700 border-2 rounded-lg border-red-700 w-16">Admin</button>
                     </div>
                 </div>
             </Box>

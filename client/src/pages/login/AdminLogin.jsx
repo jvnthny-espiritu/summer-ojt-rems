@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
 // const Header = () => {
@@ -57,7 +56,7 @@ const AdminLogin = ({handleAdminLogin}) => {
                     </div>
                 </form>
                 <div className="flex flex-row-reverse my-5 mr-9">
-                    <Button onClick={handleAdminLogin} className="text-red-700 rounded-lg border-2 border-red-700 w-16">User</Button>
+                    <button onClick={handleAdminLogin} className="text-red-700 rounded-lg border-2 border-red-700 w-16">User</button>
                 </div>
             </Box>
         </>

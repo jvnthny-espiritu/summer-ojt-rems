@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
 
 const style = {
     position: 'absolute',
@@ -29,8 +28,8 @@ const RCCDeleteDialog = ({openState, handleDeleteClose}) =>{
                     </p>
                     <div class="flex flex-row gap-8 mt-5 mb-1">
                         {/* TODO Change save when backend is implemented */}
-                        <Button onClick={handleDeleteClose} class="p-1 bg-red-700 rounded-xl text-white w-20 text-md ">Yes</Button>
-                        <Button onClick={handleDeleteClose} class="p-1 border-2 border-red-700 rounded-xl text-red-700 w-20 text-md">No</Button>
+                        <button onClick={handleDeleteClose} class="p-1 bg-red-700 rounded-xl text-white w-20 text-md ">Yes</button>
+                        <button onClick={handleDeleteClose} class="p-1 border-2 border-red-700 rounded-xl text-red-700 w-20 text-md">No</button>
                     </div>
                 </div>
             </Box>
@@ -109,7 +108,7 @@ const EditRc = ({editOpenState,handleEditOpenState, researchCenterInfo}) => {
                         </div>
                         <div class="flex flex-row-reverse gap-4 mt-12 mb-4">
                             <button onClick={handleEditOpenState} class="p-1 border-2 border-red-700 rounded-xl text-red-700 w-1/5 text-md">Cancel</button>
-                            <Button onClick={handleDeleteOpen} class="p-1 bg-red-700 rounded-xl text-white w-1/4 text-sm">Delete</Button>
+                            <button onClick={handleDeleteOpen} class="p-1 bg-red-700 rounded-xl text-white w-1/4 text-sm">Delete</button>
                             { deleteOpen && (
                                     <RCCDeleteDialog openState={deleteOpen} handleDeleteClose={handleDeleteOpen} />
                             )}

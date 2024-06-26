@@ -3,8 +3,6 @@ import DeviceInfo from "./DeviceInfo";
 
 import { Link, useParams } from "react-router-dom"
 
-import Button from '@mui/material/Button';
-
 
 const AdminHome = () => {
     return (
@@ -69,7 +67,7 @@ const UserHome = () => {
                                     {device.name}
                                 </p>
                                 {/* Change to links later */}
-                                <Button className="p-1 bg-black rounded-md text-white w-1/3 text-sm hover:bg-blue-950" onClick={() => handleOpen(device)}>View</Button>
+                                <button className="p-1 bg-black rounded-md text-white w-1/3 text-sm hover:bg-blue-950" onClick={() => handleOpen(device)}>View</button>
                                 {currentDevice && (
                                     <DeviceInfo open={openState} handleClose={handleClose} device={currentDevice ? currentDevice : ""}/>
                                 )}

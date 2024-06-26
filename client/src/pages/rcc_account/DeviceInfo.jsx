@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Modal from '@mui/material/Modal';
@@ -30,8 +29,8 @@ const DeleteDialog = ({openState, handleDeleteClose}) =>{
                     </p>
                     <div className="flex flex-row gap-8 mt-5 mb-1">
                         {/* TODO Change save when backend is implemented */}
-                        <Button onClick={handleDeleteClose} className="p-1 bg-black rounded-md text-white w-20 text-md hover:bg-white hover:text-black">Yes</Button>
-                        <Button onClick={handleDeleteClose} className="p-1 bg-black rounded-md text-white w-20 text-md hover:bg-white hover:text-black">No</Button>
+                        <button onClick={handleDeleteClose} className="p-1 bg-black rounded-md text-white w-20 text-md hover:bg-white hover:text-black">Yes</button>
+                        <button onClick={handleDeleteClose} className="p-1 bg-black rounded-md text-white w-20 text-md hover:bg-white hover:text-black">No</button>
                     </div>
                 </div>
             </Box>
@@ -70,7 +69,7 @@ const DeviceInfo = ({open,handleClose,device}) => {
             <Box sx={{ ...style, width: 500 }}>
                 <div className="text-md mt-2 grid grid-cols-3">
                     <h2 id="child-modal-title" className="col-span-2">{device.name}</h2> 
-                    <Button onClick={handleClose} className="text-red-600">EXIT</Button>
+                    <button onClick={handleClose} className="text-red-600">EXIT</button>
                 </div>
                 
                     {editable?(
@@ -93,8 +92,8 @@ const DeviceInfo = ({open,handleClose,device}) => {
                                 </div>
                             </div>
                             <div className="flex flex-row-reverse gap-4 mt-5 mb-1">
-                                <Button onClick={handleClose} className="p-1 bg-black rounded-md text-white w-1/4 text-sm hover:bg-white hover:text-black">Save</Button>
-                                <Button onClick={closeEditable} className="p-1 bg-black rounded-md text-white w-1/5 text-md hover:bg-white hover:text-black">Cancel</Button>
+                                <button onClick={handleClose} className="p-1 bg-black rounded-md text-white w-1/4 text-sm hover:bg-white hover:text-black">Save</button>
+                                <button onClick={closeEditable} className="p-1 bg-black rounded-md text-white w-1/5 text-md hover:bg-white hover:text-black">Cancel</button>
                             </div>
                         </div>
                     ): (
@@ -118,8 +117,8 @@ const DeviceInfo = ({open,handleClose,device}) => {
                                 </p>
                             </div>
                             <div className="flex flex-row-reverse gap-4 mt-5 mb-1">
-                                <Button onClick={handleDeleteOpen} className="p-1 bg-black rounded-md text-white w-1/4 text-sm hover:bg-white hover:text-black">Remove Device</Button>
-                                <Button onClick={handleEditable} className="p-1 bg-black rounded-md text-white w-1/5 text-md hover:bg-white hover:text-black">Edit</Button>
+                                <button onClick={handleDeleteOpen} className="p-1 bg-black rounded-md text-white w-1/4 text-sm hover:bg-white hover:text-black">Remove Device</button>
+                                <button onClick={handleEditable} className="p-1 bg-black rounded-md text-white w-1/5 text-md hover:bg-white hover:text-black">Edit</button>
                                 { deleteOpen && (
                                     <DeleteDialog openState={deleteOpen} handleDeleteClose={handleDeleteClose} />
                                 )}

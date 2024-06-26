@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
 import NewRc from './NewRC'
 import EditRc from './EditRC'
 
@@ -32,7 +31,7 @@ const AdminHome = () => {
         <div className = "grid grid-cols-3 w-full">
             <div className="w-full col-span-3 flex justify-between border-b-2 border-red-700 px-8 py-6">
                 <p className="text-red-700 text-xl text font-bold">Users List</p>
-                <Button className="p-1 bg-red-700 rounded-md text-white w-1/6 text-xs" onClick={handleNewOpenState}>Add Research Center</Button>
+                <button className="p-1 bg-red-700 rounded-md text-white w-1/6 text-xs" onClick={handleNewOpenState}>Add Research Center</button>
                 {newOpenState && (
                     <NewRc newOpenState={newOpenState} handleNewOpenState={handleNewOpenState}/>
                 )}
@@ -50,7 +49,7 @@ const AdminHome = () => {
                                 Password: *********
                             </p>
                             {/* Change to links later */}
-                            <Button className="p-1 bg-red-700 rounded-md text-white w-20 text-sm mr-8" onClick={() => handleEditOpen(user)}>Edit</Button>
+                            <button className="p-1 bg-red-700 rounded-md text-white w-20 text-sm mr-8" onClick={() => handleEditOpen(user)}>Edit</button>
                             {editOpenState && (
                                 <EditRc editOpenState={editOpenState} handleEditOpenState={handleEditClose} researchCenterInfo={currentUser}/>
                             )}
