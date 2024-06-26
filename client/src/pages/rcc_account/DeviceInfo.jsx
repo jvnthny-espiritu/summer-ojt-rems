@@ -23,7 +23,7 @@ const DeleteDialog = ({openState, handleDeleteClose}) =>{
         onClose={handleDeleteClose}
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description">
-            <Box sx={{ ...style, width: 400 }}>
+            <Box sx={{ ...style, width: 300 }}>
                 <div class="flex flex-col items-center">
                     <p id="child-modal-description" class="mt-4 mb-3">
                         Are you sure?
