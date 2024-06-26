@@ -1,23 +1,12 @@
-import Nav from "../../components/NavBar";
+import { Link } from "react-router-dom";
+
 
 const Home = () => {
-  // should be requested from backend before list is rendered
-  const branches = [
-    "MRC", 
-    "MTCC", 
-    "GIS",
-    "ESRC", 
-    "CTI", 
-    "DTC"
-  ];
-
   return (
     <>
-      <ul className="flex size-full place-content-center">
-        {branches.map( branch => (
-          <button className="m-10">{branch}</button>
-        ))}
-      </ul> 
+      <p>
+        <Link to="/account">Login</Link>
+      </p>
     </>   
   );
 };

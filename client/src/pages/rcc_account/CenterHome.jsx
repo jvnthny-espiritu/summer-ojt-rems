@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
 import DeviceInfo from "./DeviceInfo";
+
+import { Link, useParams } from "react-router-dom"
+
+import Button from '@mui/material/Button';
+
 
 const AdminHome = () => {
     return (
@@ -44,25 +47,29 @@ const UserHome = () => {
         current[device.type].push(device);
         return current;
     }, {});
+
+    const { center } = useParams()
+
     return(
         // TODO make dynamic
-        <div class = "w-full">
-            <div class="flex flex-col items-center bg-zinc-400 p-6">
-                <p>Welcome {"MRC_00"}</p>
+        <div className= "w-full">
+
+            <div className="flex flex-col items-center bg-zinc-400 p-6">
+                <p>Welcome { center }</p>
             </div>
-            <div class="flex flex-col p-6">
+            <div className="flex flex-col p-6">
                 {Object.keys(deviceTypes).map((type) => (
                     <div key={type}>
-                    <h3 class="text-lg mt-8 font-bold">{type}</h3>
-                    <ul class="w-2/5">
+                    <h3 className="text-lg mt-8 font-bold">{type}</h3>
+                    <ul className="w-2/5">
                         {deviceTypes[type].map((device) => (
                         <li key={device.id}>
-                            <div class="w-1.8/2 text-md mt-2 grid grid-cols-3">
-                                <p class="p-1 mr-7 ml-5 col-span-2">
+                            <div className="w-1.8/2 text-md mt-2 grid grid-cols-3">
+                                <p className="p-1 mr-7 ml-5 col-span-2">
                                     {device.name}
                                 </p>
                                 {/* Change to links later */}
-                                <Button class="p-1 bg-black rounded-md text-white w-1/3 text-sm hover:bg-blue-950" onClick={() => handleOpen(device)}>View</Button>
+                                <Button className="p-1 bg-black rounded-md text-white w-1/3 text-sm hover:bg-blue-950" onClick={() => handleOpen(device)}>View</Button>
                                 {currentDevice && (
                                     <DeviceInfo open={openState} handleClose={handleClose} device={currentDevice ? currentDevice : ""}/>
                                 )}
