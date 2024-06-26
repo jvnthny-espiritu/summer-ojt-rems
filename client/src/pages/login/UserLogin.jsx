@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
+import api from '../../services/api';
 const Header = () => {
     return (
         <header class="header" className="flex flex-col p-6 items-center">
@@ -13,12 +14,30 @@ const Header = () => {
 const UserLogin = ({handleAdminLogin}) => {
     const [rcCode, setRCCode] = useState('');
     const [password, setPassword] = useState('');
-    const handleSubmit = (e) => {
+    const [error, setError] = useState('');
+    const handleSubmit = async (e) => {
         e.preventDefault();
-      // Login logic later
-        console.log('RCC:', rcCode);
-        console.log('Password:', password);
+        try {
+            const response = await api.post('api/auth/login', {
+                code: rcCode,
+                password: password
+            });
+            console.log('Response:', response.data);
+            localStorage.setItem('token', response.data.token);
+            // TODO replace when routing is complete
+            //navigate('/admin');
+        } catch (error) {
+            setError('Login failed. Please check your credentials and try again.');
+            console.error('Error:', error);
+        }
     };
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //   // Login logic later
+    //     console.log('RCCode:', rcCode);
+    //     console.log('Password:', password);
+    // };
 
     return (
         // TODO Make conditional -- switch between admin or user

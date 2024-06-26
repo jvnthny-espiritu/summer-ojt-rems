@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import NewRc from './NewRC'
 import EditRc from './EditRC'
+import api from '../../services/api';
 
 const AdminHome = () => {
     const [newOpenState, setNewOpenState] = useState(false);
@@ -10,6 +11,9 @@ const AdminHome = () => {
 
     const [editOpenState, setEditOpenState] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
+    const [error, setError] = useState('');
+
+    const [userList, setUserList] = useState([]);
     const handleEditOpen = (user) => {
         setCurrentUser(user);
         setEditOpenState(true);
@@ -18,14 +22,22 @@ const AdminHome = () => {
         setCurrentUser(null);
         setEditOpenState(false);
     };
-    const users = [
-        {id:1, name: "Manufacturing Research Center", rcCode:"MRC_00", password: "tempPass123"},
-        {id:2, name: "Manufacturing Research Center",rcCode:"MTCC_00", password: "tempPass123"},
-        {id:3, name: "Manufacturing Research Center",rcCode:"GIS_00", password: "tempPass123"},
-        {id:4, name: "Manufacturing Research Center",rcCode:"ESRC_00", password: "tempPass123"},
-        {id:5, name: "Center For Technopreneurship and Internship",rcCode:"CTI_00", password: "tempPass123"},
-        {id:6, name: "Manufacturing Research Center",rcCode:"DTC_00", password: "tempPass123"},
-    ]
+
+    const fetchData = async (e) =>{
+        try {
+            const response = await api.get('api/research-centers');
+            setUserList(response.data)
+            // TODO replace when routing is complete
+            //navigate('/admin');
+        } catch (error) {
+            setError('Login failed. Please check your credentials and try again.');
+            console.error('Error:', error);
+        }
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
         <div className = "grid grid-cols-3 w-full">
@@ -38,14 +50,14 @@ const AdminHome = () => {
             </div>
             <div className="col-span-3 w-full">
                 <ul>
-                    {users.map((user) => (
+                    {userList.map((user) => (
                     <li key={user.id}>
                         <div className="border-b-2 border-red-700 text-md my-8 pb-6 flex justify-between px-16 py-1">
                             <p className="w-1/6">
                                 {user.name}
                             </p>
                             <p className="w-1/5 text-xs font-thin text-neutral-700">
-                                Code: {user.rcCode} <br></br>
+                                Code: {user.code} <br></br>
                                 Password: *********
                             </p>
                             {/* Change to links later */}

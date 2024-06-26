@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DeviceInfo from "./DeviceInfo";
-
+import api from '../../services/api';
 import { Link, useParams } from "react-router-dom"
 
 import Button from '@mui/material/Button';
@@ -21,36 +21,54 @@ const AdminHome = () => {
 
 const UserHome = () => {
 	const [open, setOpen] = useState(false);
-	const [currentDevice, setCurrentDevice] = useState(null);
+	const openState = open
+	const [currentEquipment, setCurrentEquipment] = useState(null);
 
-	const handleOpen = (device) => {
-		setCurrentDevice(device);
+	const [error, setError] = useState('');
+    const [equipmentList, setEquipmentList] = useState([]);
+
+	const handleOpen = (equipment) => {
+		setCurrentEquipment(equipment);
 		setOpen(true);
 	};
 
 	const handleClose = () => {
-		setCurrentDevice(null);
+		setCurrentEquipment(null);
 		setOpen(false);
 	};
 
-	const openState = open
+	const fetchData = async (e) =>{
+        try {
+            const response = await api.get('api/equipments');
+            setEquipmentList(response.data)
+            // TODO replace when routing is complete
+            //navigate('/admin');
+        } catch (error) {
+            setError('Login failed. Please check your credentials and try again.');
+            console.error('Error:', error);
+        }
+    }
 
-	const devices = [
-		{id:1, type:"3D Printer", name:"Ultimaker1"},
-		{id:2, type:"3D Printer", name:"Ultimaker2"},
-		{id:3, type:"3D Printer", name:"Ultimaker3"},
-		{id:4, type:"CNC Machine", name:"CNC_1"},
-		{id:5, type:"CNC Machine", name:"CNC_2"},
-		{id:6, type:"Laser Cut", name:"Laser_1"},
-		{id:7, type:"Laser Cut", name:"Laser_2"},
-	]
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-	const deviceTypes = devices.reduce((current, device) => {
-		if (!current[device.type]) {
-			current[device.type] = [];
+	// const devices = [
+	// 	{id:1, type:"3D Printer", name:"Ultimaker1"},
+	// 	{id:2, type:"3D Printer", name:"Ultimaker2"},
+	// 	{id:3, type:"3D Printer", name:"Ultimaker3"},
+	// 	{id:4, type:"CNC Machine", name:"CNC_1"},
+	// 	{id:5, type:"CNC Machine", name:"CNC_2"},
+	// 	{id:6, type:"Laser Cut", name:"Laser_1"},
+	// 	{id:7, type:"Laser Cut", name:"Laser_2"},
+	// ]
+
+	const equipmentTypes = equipmentList.reduce((current, equipment) => {
+		if (!current[equipment.type]) {
+			current[equipment.type] = [];
 		}
 
-		current[device.type].push(device);
+		current[equipment.type].push(equipment);
 
 		return current;
 	}, {});
@@ -65,24 +83,24 @@ const UserHome = () => {
 				<p>Welcome { center }</p>
 			</div>
 			<div className="flex flex-col p-6">
-				{Object.keys(deviceTypes).map((type) => (
+				{Object.keys(equipmentTypes).map((type) => (
 					<div key={type}>
 						<h3 className="text-lg mt-8 font-bold">{type}</h3>
 
 						<ul className="w-2/5 place-content-center">
-							{deviceTypes[type].map((device) => (
-								<li key={device.id}>
+							{equipmentTypes[type].map((equipment) => (
+								<li key={equipment.id}>
 									<div className="w-1.8/2 text-md mt-2 grid grid-cols-3">
 										<p className="p-1 mr-7 ml-5 col-span-2">
-											{device.name}
+											{equipment.model}
 										</p>
 
 										{/* Change to links later */}
 
-										<Button className="p-1 bg-black rounded-md text-white w-1/3 text-sm hover:bg-blue-950" onClick={() => handleOpen(device)}>View</Button>
+										<Button className="p-1 bg-black rounded-md text-white w-1/3 text-sm hover:bg-blue-950" onClick={() => handleOpen(equipment)}>View</Button>
 
-										{currentDevice && (
-											<DeviceInfo open={openState} handleClose={handleClose} device={currentDevice ? currentDevice : ""}/>
+										{currentEquipment && (
+											<DeviceInfo open={openState} handleClose={handleClose} device={currentEquipment ? currentEquipment : ""}/>
 										)}
 									</div>
 								</li>
