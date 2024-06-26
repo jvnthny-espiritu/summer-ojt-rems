@@ -5,10 +5,11 @@ const sequelize = require('./config/db.config');
 require('dotenv').config();
 
 const researchCenterRoutes = require('./routes/researchCenter.route');
+const equipmentRoutes = require('./routes/equipment.route');
 const authRoutes = require('./routes/auth.route');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5050;
 
 app.use(bodyParser.json());
 app.use(cors({
@@ -18,6 +19,7 @@ app.use(cors({
 }));
 
 app.use('/api/research-centers', researchCenterRoutes);
+app.use('/api/equipments', equipmentRoutes);
 app.use('/api/auth', authRoutes);
 
 const startServer = async () => {
@@ -25,7 +27,7 @@ const startServer = async () => {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
 
-    await sequelize.sync();
+    await sequelize.sync({ force: false });
     console.log('Database synchronized.');
 
     app.listen(PORT, () => {
