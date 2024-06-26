@@ -18,7 +18,7 @@ const LoginForm = () => {
     }
 
     return (
-        <div class="w=full">
+        <div className="w=full">
             <div>
                 {loginContent}
             </div>

@@ -29,28 +29,28 @@ const AdminHome = () => {
     ]
 
     return (
-        <div class = "w-full">
-            <div class="flex flex-row justify-between border-b-2 border-red-700 px-16 py-6">
-                <p class="text-red-700 text-xl text font-bold">Users List</p>
-                <Button class="p-1 bg-red-700 rounded-md text-white w-1/6 text-xs" onClick={handleNewOpenState}>Add Research Center</Button>
+        <div className = "grid grid-cols-3 w-full">
+            <div className="w-full col-span-3 flex justify-between border-b-2 border-red-700 px-8 py-6">
+                <p className="text-red-700 text-xl text font-bold">Users List</p>
+                <Button className="p-1 bg-red-700 rounded-md text-white w-1/6 text-xs" onClick={handleNewOpenState}>Add Research Center</Button>
                 {newOpenState && (
                     <NewRc newOpenState={newOpenState} handleNewOpenState={handleNewOpenState}/>
                 )}
             </div>
-            <div class="flex flex-col w-full">
+            <div className="col-span-3 w-full">
                 <ul>
                     {users.map((user) => (
                     <li key={user.id}>
-                        <div class="border-b-2 border-red-700 text-md my-8 pb-6 flex justify-between px-16 py-1">
-                            <p class="ml-20">
+                        <div className="border-b-2 border-red-700 text-md my-8 pb-6 flex justify-between px-16 py-1">
+                            <p className="w-1/6">
                                 {user.name}
                             </p>
-                            <p class="flex flex-col text-xs font-thin text-neutral-700">
+                            <p className="w-1/5 text-xs font-thin text-neutral-700">
                                 Code: {user.rcCode} <br></br>
                                 Password: *********
                             </p>
                             {/* Change to links later */}
-                            <Button class="p-1 bg-red-700 rounded-md text-white w-20 text-sm mr-8" onClick={() => handleEditOpen(user)}>Edit</Button>
+                            <Button className="p-1 bg-red-700 rounded-md text-white w-20 text-sm mr-8" onClick={() => handleEditOpen(user)}>Edit</Button>
                             {editOpenState && (
                                 <EditRc editOpenState={editOpenState} handleEditOpenState={handleEditClose} researchCenterInfo={currentUser}/>
                             )}

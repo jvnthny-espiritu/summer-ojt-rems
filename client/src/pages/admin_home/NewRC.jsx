@@ -38,12 +38,12 @@ const NewRc = ({newOpenState,handleNewOpenState}) => {
             hideBackdrop = {true}
             >
             <Box sx={{ ...style, width: 500 }}>
-                <div class="mt-3">
+                <div className="mt-3">
                     <form onSubmit={handleSubmit}>
-                        <div class= "my-5 flex flex-col py-6">
-                            <p class="text-red-700 text-lg text font-bold my-6">Add New Research Center</p>
+                        <div className= "my-5 flex flex-col py-6">
+                            <p className="text-red-700 text-lg text font-bold my-6">Add New Research Center</p>
                             <label htmlFor="name">Name</label>
-                            <input class="border-2 border-zinc-600 opacity-35 hover:border-black rounded-lg my-2 ml-3 p-2"
+                            <input className="border-2 border-zinc-600 opacity-35 hover:border-black rounded-lg my-2 ml-3 p-2"
                                 type="name"
                                 id="name"
                                 value={name}
@@ -52,7 +52,7 @@ const NewRc = ({newOpenState,handleNewOpenState}) => {
                                 placeholder="Name"
                             />
                             <label htmlFor="RCCode">Research Center Code</label>
-                            <input class="border-2 border-zinc-600 opacity-35 hover:border-black rounded-lg my-2 ml-3 p-2"
+                            <input className="border-2 border-zinc-600 opacity-35 hover:border-black rounded-lg my-2 ml-3 p-2"
                                 type="RCCode"
                                 id="RCCode"
                                 value={RCCode}
@@ -61,7 +61,7 @@ const NewRc = ({newOpenState,handleNewOpenState}) => {
                                 placeholder="Research Center Code"
                             />
                             <label htmlFor="password">Password</label>
-                            <input class="border-2 border-zinc-600 opacity-35 hover:border-black rounded-lg my-2 ml-3 p-2"
+                            <input className="border-2 border-zinc-600 opacity-35 hover:border-black rounded-lg my-2 ml-3 p-2"
                                 type="password"
                                 id="password"
                                 value={password}
@@ -70,7 +70,7 @@ const NewRc = ({newOpenState,handleNewOpenState}) => {
                                 placeholder="Enter Password"
                             />
                             <label htmlFor="reEnterPassword">Re-enter Password</label>
-                            <input class="border-2 border-zinc-600 opacity-35 hover:border-black rounded-lg my-2 ml-3 p-2"
+                            <input className="border-2 border-zinc-600 opacity-35 hover:border-black rounded-lg my-2 ml-3 p-2"
                                 type="password"
                                 id="reEnterPassword"
                                 value={reEnterPassword}
@@ -79,9 +79,9 @@ const NewRc = ({newOpenState,handleNewOpenState}) => {
                                 placeholder="Re-enter Password"
                             />
                         </div>
-                        <div class="flex flex-row-reverse gap-4 mt-12 mb-4">
-                            <button onClick={handleNewOpenState} class="p-1 border-2 border-red-700 rounded-xl text-red-700 w-1/5 text-md">Cancel</button>
-                            <button type="submit" class= "p-1 bg-red-700 rounded-xl text-white w-1/5 text-md">Add</button>
+                        <div className="flex flex-row-reverse gap-4 mt-12 mb-4">
+                            <button onClick={handleNewOpenState} className="p-1 border-2 border-red-700 rounded-xl text-red-700 w-1/5 text-md">Cancel</button>
+                            <button type="submit" className= "p-1 bg-red-700 rounded-xl text-white w-1/5 text-md">Add</button>
                         </div>
                     </form>
                 </div>
