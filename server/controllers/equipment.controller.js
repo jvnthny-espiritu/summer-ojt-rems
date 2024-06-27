@@ -97,7 +97,7 @@ exports.deleteEquipment = async (req, res) => {
         const equipment = await Equipment.findByPk(id);
         if (equipment) {
             await equipment.destroy();
-            res.status(204).json();
+            res.status(204).json({ message: 'Equipment deleted successfully'});
         } else {
             res.status(404).json({ error: 'Equipment not found' });
         }

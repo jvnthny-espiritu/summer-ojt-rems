@@ -1,10 +1,11 @@
-const { ResearchCenter } = require('../models');
+const { Model } = require('sequelize');
+const { ResearchCenter, Equipment, sequelize } = require('../models');
 const bcrypt = require('bcrypt');
 
 // Get all research center
 exports.getAllResearchCenters = async (req, res, next) => {
   try {
-    const researchCenters = await ResearchCenter.findAll();
+    const researchCenters = await ResearchCenter.findAll({ attributes: ['id', 'name', 'code', 'password'] });
     res.status(200).json(researchCenters);
   } catch (error) {
     next(error);
@@ -83,5 +84,30 @@ exports.deleteResearchCenter = async (req, res, next) => {
     res.status(204).end();
   } catch (error) {
     next(error);
+  }
+};
+
+// Get equipment by research center
+exports.getEquipments = async (req, res) => {
+  const { id } = req.params;
+  try {
+      const researchCenter = await ResearchCenter.findByPk(id);
+      if (!researchCenter) {
+        return res.status(404),json({ message: 'Research center not found' });
+      }
+      const equipments =  await Equipment.findAll({
+        where: { researchCenterId: id },
+        attributes: [
+          'type',
+          'model'
+        ],
+        group: ['type', 'model']
+      });
+      if (!equipments) {
+        return res.status(404),json({ message: 'No equipments in this research center' });
+      }
+      res.status(200).json(equipments);
+  } catch (error) {
+      res.status(500).json({ error : error.message });
   }
 };
