@@ -8,4 +8,6 @@ router.post('/', researchCenterController.createResearchCenter);
 router.put('/:id', researchCenterController.updateResearchCenter);
 router.delete('/:id', researchCenterController.deleteResearchCenter);
 
+router.get('/:id/equipments', researchCenterController.getEquipments);
+
 module.exports = router;

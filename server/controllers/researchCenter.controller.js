@@ -1,4 +1,5 @@
-const { ResearchCenter } = require('../models');
+const { Model } = require('sequelize');
+const { ResearchCenter, Equipment } = require('../models');
 const bcrypt = require('bcrypt');
 
 // Get all research center
@@ -83,5 +84,27 @@ exports.deleteResearchCenter = async (req, res, next) => {
     res.status(204).end();
   } catch (error) {
     next(error);
+  }
+};
+
+// Get equipment by research center
+exports.getEquipments = async (req, res) => {
+  const { id } = req.params;
+  try {
+      const researchCenter = await ResearchCenter.findByPk(id, {
+        include: {
+          model: Equipment,
+          as: 'equipments'
+        }
+      });
+      if (!researchCenter) {
+        return res.status(404),json({ message: 'Research center not found' });
+      }
+      if (!researchCenter.equipments) {
+        return res.status(404),json({ message: 'No equipments in this research center' });
+      }
+      res.json(researchCenter.equipments);
+  } catch (error) {
+      res.status(500).json({ error : error.message });
   }
 };
