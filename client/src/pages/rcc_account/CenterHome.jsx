@@ -24,6 +24,8 @@ const UserHome = () => {
 	const openState = open
 	const [currentEquipment, setCurrentEquipment] = useState(null);
 
+	// const [equipmentInfo, setEquipmentInfo] = useState(null);
+
 	const [error, setError] = useState('');
     const [equipmentList, setEquipmentList] = useState([]);
 
@@ -33,11 +35,13 @@ const UserHome = () => {
 	};
 
 	const handleClose = () => {
+		fetchData();
 		setCurrentEquipment(null);
 		setOpen(false);
 	};
 
 	const fetchData = async (e) =>{
+		// TODO CHANGE LATER TO ONLY GET EQUIPMENT THAT BELONGS TO SPECIFIC USER
         try {
             const response = await api.get('api/equipments');
             setEquipmentList(response.data)
@@ -52,16 +56,6 @@ const UserHome = () => {
     useEffect(() => {
         fetchData();
     }, []);
-
-	// const devices = [
-	// 	{id:1, type:"3D Printer", name:"Ultimaker1"},
-	// 	{id:2, type:"3D Printer", name:"Ultimaker2"},
-	// 	{id:3, type:"3D Printer", name:"Ultimaker3"},
-	// 	{id:4, type:"CNC Machine", name:"CNC_1"},
-	// 	{id:5, type:"CNC Machine", name:"CNC_2"},
-	// 	{id:6, type:"Laser Cut", name:"Laser_1"},
-	// 	{id:7, type:"Laser Cut", name:"Laser_2"},
-	// ]
 
 	const equipmentTypes = equipmentList.reduce((current, equipment) => {
 		if (!current[equipment.type]) {
@@ -100,7 +94,7 @@ const UserHome = () => {
 										<Button className="p-1 bg-black rounded-md text-white w-1/3 text-sm hover:bg-blue-950" onClick={() => handleOpen(equipment)}>View</Button>
 
 										{currentEquipment && (
-											<DeviceInfo open={openState} handleClose={handleClose} device={currentEquipment ? currentEquipment : ""}/>
+											<DeviceInfo open={openState} handleClose={handleClose} equipment={currentEquipment ? currentEquipment : ""}/>
 										)}
 									</div>
 								</li>

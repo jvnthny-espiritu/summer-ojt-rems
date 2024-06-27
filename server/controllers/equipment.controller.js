@@ -45,7 +45,13 @@ exports.updateEquipment = async (req, res) => {
         const { type, model, serialNo, inventoryNo, status, researchCenterId } = req.body;
         const equipment = await Equipment.findByPk(id);
         if (equipment) {
-            await equipment.update({ type, model, serialNo, inventoryNo, status, researchCenterId });
+            equipment.type = type
+            equipment.model = model
+            equipment.serialNo = serialNo
+            equipment.inventoryNo = inventoryNo
+            equipment.status = status
+            equipment.researchCenterId = researchCenterId
+            await equipment.save();
             res.status(200).json(equipment);
         } else {
             res.status(404).json({ error: 'Equipment not found' });
