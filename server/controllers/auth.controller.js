@@ -5,7 +5,7 @@ const { ResearchCenter, Admin } = require('../models');
 const login = async (req, res, next) => {
     const { code, password } = req.body;
     try {
-        const user = await ResearchCenter.findOne({ where: { code } }) || await Admin.findOne({ where: { username: code } });
+        const user = await ResearchCenter.findOne({ where: { code } }) || await Admin.findOne({ where: { code } });
         if (!user) {
         return res.status(404).json({ message: 'User not found' });
         }
@@ -13,7 +13,7 @@ const login = async (req, res, next) => {
         if (!isPasswordValid) {
         return res.status(401).json({ message: 'Invalid password' });
         }
-        const token = jwt.sign({ id: user.id, code: user.code || user.username }, process.env.JWT_SECRET || "your-secret-key", {
+        const token = jwt.sign({ id: user.id, code: user.code }, process.env.JWT_SECRET || "your-secret-key", {
         expiresIn: '1h',
         });
         res.status(200).json({ token });
@@ -23,9 +23,9 @@ const login = async (req, res, next) => {
 };
 
 const register = async (req, res, next) => {
-    const { username, password } = req.body;
+    const { code, password } = req.body;
     try {
-      const existingAdmin = await Admin.findOne({ where: { username } });
+      const existingAdmin = await Admin.findOne({ where: { code } });
       if (existingAdmin) {
         return res.status(400).json({ message: 'Admin with this username already exists' });
       }
@@ -34,7 +34,7 @@ const register = async (req, res, next) => {
       const hashedPassword = await bcrypt.hash(password, salt);
   
       const newAdmin = await Admin.create({
-        username,
+        code,
         password: hashedPassword,
       });
   
