@@ -9,6 +9,11 @@ const AdminHome = () => {
         setNewOpenState(!newOpenState)
     }
 
+    const handleNewOpenUpdateState = () =>{
+        fetchData();
+        setNewOpenState(false);
+    }
+
     const [editOpenState, setEditOpenState] = useState(null);
     const [currentUser, setCurrentUser] = useState(null);
     const [error, setError] = useState('');
@@ -18,10 +23,17 @@ const AdminHome = () => {
         setCurrentUser(user);
         setEditOpenState(true);
     };
+    
     const handleEditClose = () => {
+        fetchData()
         setCurrentUser(null);
         setEditOpenState(false);
     };
+    
+    const handleDeleteUpdate = () =>{
+        fetchData()
+        setEditOpenState(false)
+    }
 
     const fetchData = async (e) =>{
         try {
@@ -45,7 +57,7 @@ const AdminHome = () => {
                 <p className="text-red-700 text-xl text font-bold">Users List</p>
                 <button className="p-1 bg-red-700 rounded-md text-white w-1/6 text-xs" onClick={handleNewOpenState}>Add Research Center</button>
                 {newOpenState && (
-                    <NewRc newOpenState={newOpenState} handleNewOpenState={handleNewOpenState}/>
+                    <NewRc newOpenState={newOpenState} handleNewOpenState={handleNewOpenState} handleNewOpenUpdateState={handleNewOpenUpdateState}/>
                 )}
             </div>
             <div className="col-span-3 w-full">
@@ -63,7 +75,7 @@ const AdminHome = () => {
                             {/* Change to links later */}
                             <button className="p-1 bg-red-700 rounded-md text-white w-20 text-sm mr-8" onClick={() => handleEditOpen(user)}>Edit</button>
                             {editOpenState && (
-                                <EditRc editOpenState={editOpenState} handleEditOpenState={handleEditClose} researchCenterInfo={currentUser}/>
+                                <EditRc editOpenState={editOpenState} handleEditOpenState={handleEditClose} researchCenterInfo={currentUser} handleDeleteUpdate={handleDeleteUpdate}/>
                             )}
                         </div>
                     </li>

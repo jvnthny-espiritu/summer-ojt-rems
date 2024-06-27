@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import api from '../../services/api';
 
 const style = {
     position: 'absolute',
@@ -14,19 +15,33 @@ const style = {
     pb: 3,
 };
 
-
-const NewRc = ({newOpenState,handleNewOpenState}) => {
-    const handleSubmit = (e) => {
-        e.preventDefault();
-      // Login logic later
-        console.log('RCC:', RCCode);
-        console.log('Password:', password);
-    };
-
+const NewRc = ({newOpenState,handleNewOpenState, handleNewOpenUpdateState}) => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [reEnterPassword, setPasswordTwo] = useState('');
     const [RCCode, setRCCode] = useState('');
+    const [error, setError] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if(reEnterPassword!==password){
+                setPassword("");
+                setPasswordTwo("");
+                setError('Creation failed. Please check your credentials and try again.');
+                throw error
+            }
+            const response = await api.post('/api/research-centers', {
+                code: RCCode,
+                name: name,
+                password: password
+            });
+            handleNewOpenUpdateState();
+            console.log('Response:', response.data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     return (
     <React.Fragment>
