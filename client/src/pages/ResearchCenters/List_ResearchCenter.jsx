@@ -30,15 +30,17 @@ export default function List_ResearchCenter() {
   ];
 
   const list = branches.map( (branch) => (
-    <li key={branch.id}>
-      <Link to={`/center/${branch.id}`}>{branch.title}</Link>
-    </li>
+    <Link to={`/center/${branch.id}`} className="flex justify-center bg-[#8B0000] text-base text-white py-3 px-5">
+      <li key={branch.id} className="self-center text-center">
+        {branch.title}
+      </li>
+    </Link>
   ))
 
   return (
     <>
-      <ul className="flex flex-col gap-10 size-full place-content-center">
-        {list}
+      <ul className="grid grid-cols-1 md:grid-cols-3 gap-3  size-full">
+        { list }
       </ul>
     </>   
   );
