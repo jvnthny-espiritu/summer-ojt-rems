@@ -3,39 +3,8 @@ const { Equipment, ResearchCenter } = require('../models');
 // Get all equipment
 exports.getAllEquipment = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
-        const equipment = await Equipment.findAll({ include: [{ model: ResearchCenter, as: 'researchCenter' }] });
-
-        const paginatedEquipment = equipment.slice(startIndex, endIndex)
-        res.status(200).json({sentEquipment: paginatedEquipment, totalPages: Math.ceil(equipment.length / limit)});
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-exports.getTypes = async (req, res) => {
-    try {
-        const equipment = await Equipment.findAll({ include: [{ model: ResearchCenter, as: 'researchCenter' }] });
-        const uniqueTypes = [...new Set(equipment.map(device => device.type))]
-        res.status(200).json(uniqueTypes);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-exports.getEquipmentByType = async (req, res) => {
-    try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
-        const type = req.query.type
-        const equipment = await Equipment.findAll({where: {type: type}, include: [{ model: ResearchCenter, as: 'researchCenter' }] });
-        const paginatedEquipment = equipment.slice(startIndex, endIndex)
-        res.status(200).json({sentEquipment: paginatedEquipment, totalPages: Math.ceil(equipment.length / limit)});
+        const equipment = await Equipment.findAll({ attributes: ['id', 'type', 'model', 'serialNo', 'inventoryNo', 'status'],include: [{ model: ResearchCenter, as: 'researchCenter' }] });
+        res.status(200).json(equipment);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
