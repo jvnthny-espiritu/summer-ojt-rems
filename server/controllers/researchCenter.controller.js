@@ -114,7 +114,7 @@ exports.getEquipments = async (req, res) => {
 
   try {
       if(type!=null){
-        const equipment = await Equipment.findAll({where: {type: type}, include: [{ model: ResearchCenter, as: 'researchCenter' }] });
+        const equipment = await Equipment.findAll({where: {researchCenterId: id,type: type}, include: [{ model: ResearchCenter, as: 'researchCenter' }] });
         const paginatedEquipment = equipment.slice(startIndex, endIndex)
         res.status(200).json({sentEquipment: paginatedEquipment, totalPages: Math.ceil(equipment.length / limit)});
       } else{

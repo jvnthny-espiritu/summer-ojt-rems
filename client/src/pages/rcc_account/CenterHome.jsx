@@ -7,6 +7,7 @@ import { useParams, useLoaderData } from "react-router-dom"
 import Button from '@mui/material/Button';
 
 const UserHome = () => {
+	const userId = useLoaderData();
 	const [open, setOpen] = useState(false);
 	const openState = open
 	const [currentEquipment, setCurrentEquipment] = useState(null);
@@ -25,9 +26,8 @@ const UserHome = () => {
 		setOpen(false);
 	};
 	// TODO add id into params later
-	const fetchTypes = async (e) => {
+	const fetchTypes = async (id,e) => {
 		try {
-			const id= "ff1b9322-2f04-4679-9497-f356a158cbb1"
             const response = await api.get(`api/research-centers/${id}/equipments`);
 			setTypesList(response.data)
 			
@@ -49,11 +49,9 @@ const UserHome = () => {
 	}, {});
 	
 	//TODO add id into params later
-	const fetchEquipmentList = async (type,pageId,e) =>{
+	const fetchEquipmentList = async (userId,type,pageId,e) =>{
         try {
-			const id= "ff1b9322-2f04-4679-9497-f356a158cbb1"
-			const response = await api.get(`api/research-centers/${id}/equipments?type=${type}&page=${pageId}&limit=5`);
-            //const response = await api.get(`api/equipments/specific?type=${type}&page=${pageId}&limit=5`);
+			const response = await api.get(`api/research-centers/${userId}/equipments?type=${type}&page=${pageId}&limit=5`);
             return response.data
         } catch (error) {
             setError('Fail');
@@ -62,8 +60,8 @@ const UserHome = () => {
     }
 
     useEffect(() => {
-		fetchTypes();
-	}, []);
+		fetchTypes(userId);
+	}, [userId]);
 	
 	useEffect(() => {
 		// TODO reduce code
@@ -82,7 +80,7 @@ const UserHome = () => {
 			const pages = {}
 			const items = {}
 			for (let type of tempList) {
-				data[type] = await fetchEquipmentList(type, 1);
+				data[type] = await fetchEquipmentList(userId,type, 1);
 				items[type] = data[type].sentEquipment
 				pages[type] = data[type].totalPages
 			}
@@ -93,13 +91,13 @@ const UserHome = () => {
 		if (tempList.length > 0) {
 		    fetchData();
 		}
-	}, [typesList]);
+	}, [typesList,userId]);
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 
-	const handlePageChange = async (type,page) => {
-		const pageEquipmentList = await fetchEquipmentList(type,page)
+	const handlePageChange = async (userId,type,page) => {
+		const pageEquipmentList = await fetchEquipmentList(userId,type,page)
 		setEquipmentList((prev) => ({
 			...prev,
 			[type]: pageEquipmentList.sentEquipment,
@@ -114,7 +112,7 @@ const UserHome = () => {
 		}));
 	};
 
-	const Pagination = ({ currentPage, totalPages, onPageChange, type }) => {
+	const Pagination = ({ currentPage, totalPages, onPageChange, type, userId }) => {
 		const pageNumbers = [];
 	
 		for (let i = 1; i <= totalPages; i++) {
@@ -126,7 +124,7 @@ const UserHome = () => {
 				{pageNumbers.map((number) => (
 					<button
 					key={number}
-					onClick={() => onPageChange(type,number)}
+					onClick={() => onPageChange(userId,type,number)}
 					className={number === currentPage ? 'active' : ''}
 					>
 					{number}
@@ -137,13 +135,12 @@ const UserHome = () => {
 	};
 
 	// const { researchcenterid } = useParams();
-	const data = useLoaderData();
 
 	return(
 		// TODO make dynamic
 		<div className= "w-full">
 			<div className="flex flex-col items-center bg-zinc-400 p-6">
-				<p>Welcome { data }</p>
+				<p>Welcome { userId }</p>
 			</div>
 			<div className="flex flex-col p-6">
 				{Object.keys(equipmentTypes).map((item,i) => (
@@ -170,6 +167,7 @@ const UserHome = () => {
 									totalPages={totalPages[item]}
 									onPageChange={handlePageChange}
 									type={item}
+									userId={userId}
 							/>
 						</div>
 					</div>

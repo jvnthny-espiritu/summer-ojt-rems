@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import api from '../../services/api';
+import { jwtDecode } from 'jwt-decode';
 const Header = () => {
     return (
         <header class="header" className="flex flex-col p-6 items-center">
@@ -26,7 +27,10 @@ const UserLogin = ({handleAdminLogin}) => {
             console.log('Response:', response.data);
             localStorage.setItem('token', response.data.token);
             if (response.status===200){
-                navigate(`/center/${rcCode}`);
+                const token = localStorage.getItem('token')
+                const decodedToken = jwtDecode(token)
+                console.log(decodedToken.id)
+                navigate(`/center/${decodedToken.id}`);
             }
         } catch (error) {
             setError('Login failed. Please check your credentials and try again.');
