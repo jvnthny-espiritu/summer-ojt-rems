@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import DeviceInfo from "./DeviceInfo";
 import api from '../../services/api';
-import { Link, useParams } from "react-router-dom"
+import { useParams, useLoaderData } from "react-router-dom"
 
 import Button from '@mui/material/Button';
-
 
 const AdminHome = () => {
 	return (
@@ -83,8 +82,6 @@ const UserHome = () => {
 		}
 	}, [typesList]);
 
-	const { center } = useParams()
-
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 
@@ -126,12 +123,14 @@ const UserHome = () => {
 		);
 	};
 
+	// const { researchcenterid } = useParams();
+	const data = useLoaderData();
+
 	return(
 		// TODO make dynamic
 		<div className= "w-full">
-
 			<div className="flex flex-col items-center bg-zinc-400 p-6">
-				<p>Welcome { center }</p>
+				<p>Welcome { data }</p>
 			</div>
 			<div className="flex flex-col p-6">
 				{typesList.map((item,i) => (
@@ -170,15 +169,16 @@ const UserHome = () => {
 const StaffHome = () => {
 	let content;
 	// change later when login logic is complete
-	if(false){
+	if (false) {
 		content = <AdminHome />
-	}else {
+	} else {
 		content = <UserHome />
 	}
+
 	return (
-		<div>
+		<>
 			{content}
-		</div>
+		</>
 	)
 }
 

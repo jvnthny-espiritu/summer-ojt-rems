@@ -4,7 +4,7 @@ import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider,} f
 import LoginForm from "./pages/login/LoginForm";
 import Home from "./pages/home/Home";
 import AdminHome from "./pages/admin_home/AdminHome";
-import CenterHome from "./pages/rcc_account/CenterHome";
+import StaffHome from "./pages/rcc_account/CenterHome"
 import Root from "./pages/Root";
 import ErrorPage from "./pages/error/ErrorPage";
 
@@ -36,7 +36,14 @@ const router = createBrowserRouter(
 
         <Route
           path="/center/:researchcenterid"
-          element={ <CenterHome /> }
+          element={ <StaffHome /> }
+          loader= { ({ params }) => {
+            // return fetch(`/api/teams/${params.teamId}.json`);
+            // params += "1"
+
+            // backend logic dito iyon
+            return params.researchcenterid
+          }}
         />
 
         <Route
