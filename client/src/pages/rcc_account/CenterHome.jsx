@@ -1,30 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import DeviceInfo from "./DeviceInfo";
+import AdminHome from "../admin_home/AdminHome";
 import api from '../../services/api';
-import { Link, useParams } from "react-router-dom"
 
 import Button from '@mui/material/Button';
-
-
-const AdminHome = () => {
-	return (
-		<div class = "w-full">
-			<div>
-				<p>Welcome {"Admin"}</p>
-			</div>
-
-			<div>
-			</div>
-		</div>
-	);
-};
 
 const UserHome = () => {
 	const [open, setOpen] = useState(false);
 	const openState = open
 	const [currentEquipment, setCurrentEquipment] = useState(null);
-
-	// const [equipmentInfo, setEquipmentInfo] = useState(null);
 
 	const [error, setError] = useState('');
 	let [typesList, setTypesList] = useState([]);
@@ -39,20 +23,36 @@ const UserHome = () => {
 		setCurrentEquipment(null);
 		setOpen(false);
 	};
-
+	// TODO add id into params later
 	const fetchTypes = async (e) => {
 		try {
-            const response = await api.get(`api/equipments/types`);
-            setTypesList(response.data)
+			const id= "ff1b9322-2f04-4679-9497-f356a158cbb1"
+            const response = await api.get(`api/research-centers/${id}/equipments`);
+			setTypesList(response.data)
+			
         } catch (error) {
             setError('Fetching failed');
             console.error('Error:', error);
         }
 	}
 
+	// TODO reduce code
+	const equipmentTypes = typesList.reduce((current, equipment) => {
+		if (!current[equipment.type]) {
+			current[equipment.type] = [];
+		}
+
+		current[equipment.type].push(equipment);
+
+		return current;
+	}, {});
+	
+	//TODO add id into params later
 	const fetchEquipmentList = async (type,pageId,e) =>{
         try {
-            const response = await api.get(`api/equipments/specific?type=${type}&page=${pageId}&limit=5`);
+			const id= "ff1b9322-2f04-4679-9497-f356a158cbb1"
+			const response = await api.get(`api/research-centers/${id}/equipments?type=${type}&page=${pageId}&limit=5`);
+            //const response = await api.get(`api/equipments/specific?type=${type}&page=${pageId}&limit=5`);
             return response.data
         } catch (error) {
             setError('Fail');
@@ -65,25 +65,34 @@ const UserHome = () => {
 	}, []);
 	
 	useEffect(() => {
+		// TODO reduce code
+		const types = typesList.reduce((current, equipment) => {
+			if (!current[equipment.type]) {
+				current[equipment.type] = [];
+			}
+	
+			current[equipment.type].push(equipment);
+	
+			return current;
+		}, {});
+		const tempList = Object.keys(types)
 		const fetchData = async () => {
-		const data = {};
-		const pages = {}
-		const items = {}
-		for (let type of typesList) {
-			data[type] = await fetchEquipmentList(type, 1);
-			items[type] = data[type].sentEquipment
-			pages[type] = data[type].totalPages
-		}
-			setTotalPages(pages)
-			setEquipmentList(items);
+			const data = {};
+			const pages = {}
+			const items = {}
+			for (let type of tempList) {
+				data[type] = await fetchEquipmentList(type, 1);
+				items[type] = data[type].sentEquipment
+				pages[type] = data[type].totalPages
+			}
+				setTotalPages(pages)
+				setEquipmentList(items);
 		};
 	
-		if (typesList.length > 0) {
+		if (tempList.length > 0) {
 		    fetchData();
 		}
 	}, [typesList]);
-
-	const { center } = useParams()
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
@@ -93,15 +102,15 @@ const UserHome = () => {
 		setEquipmentList((prev) => ({
 			...prev,
 			[type]: pageEquipmentList.sentEquipment,
-		  }));
-		  setCurrentPage((prev) => ({
+		}));
+		setCurrentPage((prev) => ({
 			...prev,
 			[type]: page,
-		  }));
-		  setTotalPages((prev) => ({
+		}));
+		setTotalPages((prev) => ({
 			...prev,
 			[type]: pageEquipmentList.totalPages,
-		  }));
+		}));
 	};
 
 	const Pagination = ({ currentPage, totalPages, onPageChange, type }) => {
@@ -131,10 +140,10 @@ const UserHome = () => {
 		<div className= "w-full">
 
 			<div className="flex flex-col items-center bg-zinc-400 p-6">
-				<p>Welcome { center }</p>
+				<p>Welcome</p>
 			</div>
 			<div className="flex flex-col p-6">
-				{typesList.map((item,i) => (
+				{Object.keys(equipmentTypes).map((item,i) => (
 					<div key={i}>
 						<h3 className="text-lg mt-8 font-bold">{item}</h3>
 						<ul className="w-2/5 place-content-center">

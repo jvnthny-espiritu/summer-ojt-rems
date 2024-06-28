@@ -15,6 +15,7 @@ const UserLogin = ({handleAdminLogin}) => {
     const [rcCode, setRCCode] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -24,8 +25,9 @@ const UserLogin = ({handleAdminLogin}) => {
             });
             console.log('Response:', response.data);
             localStorage.setItem('token', response.data.token);
-            // TODO replace when routing is complete
-            //navigate('/admin');
+            if (response.status===200){
+                navigate(`/center/${rcCode}`);
+            }
         } catch (error) {
             setError('Login failed. Please check your credentials and try again.');
             console.error('Error:', error);

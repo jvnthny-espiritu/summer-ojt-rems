@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import api from '../../services/api';
 
@@ -16,6 +16,7 @@ const AdminLogin = ({handleAdminLogin}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,8 +27,9 @@ const AdminLogin = ({handleAdminLogin}) => {
             });
             console.log('Response:', response.data);
             localStorage.setItem('token', response.data.token);
-            // TODO replace when routing is complete
-            //navigate('/admin');
+            if(response.status===200){
+                navigate('/admin');
+            }
         } catch (error) {
             setError('Login failed. Please check your credentials and try again.');
             console.error('Error:', error);
