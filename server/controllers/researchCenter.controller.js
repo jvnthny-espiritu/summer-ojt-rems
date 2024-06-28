@@ -12,6 +12,21 @@ exports.getAllResearchCenters = async (req, res, next) => {
   }
 };
 
+// Get list of research centers
+exports.getList = async (req, res, next) => {
+  try {
+    const list = await ResearchCenter.findAll({
+      attributes: ['id', 'name']
+    });
+    if (!list) {
+      return res.status(404).json( { message: 'No research centers found'});
+    }
+    res.status(200).json(list);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Get research center by id
 exports.getResearchCenterById = async (req, res, next) => {
   const { id } = req.params;
@@ -56,8 +71,8 @@ exports.updateResearchCenter = async (req, res, next) => {
       return res.status(404).json({ message: 'Research center not found' });
     }
 
-    researchCenter.code = code;
-    researchCenter.name = name;
+    researchCenter.code = code || researchCenter.code;
+    researchCenter.name = name || researchCenter.name;
 
     if (password) {
       const salt = await bcrypt.genSalt(10);
