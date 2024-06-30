@@ -4,7 +4,7 @@ import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider,} f
 import LoginForm from "./pages/login/LoginForm";
 import Home from "./pages/home/Home";
 import AdminHome from "./pages/admin_home/AdminHome";
-import StaffHome from "./pages/rcc_account/CenterHome"
+import StaffHome from "./pages/staff_home/StaffHome"
 import Root from "./pages/Root";
 import ErrorPage from "./pages/error/ErrorPage";
 

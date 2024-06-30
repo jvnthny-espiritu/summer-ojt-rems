@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Box from '@mui/material/Box';
 import api from '../../services/api';
 
 // const Header = () => {
@@ -37,15 +36,15 @@ const AdminLogin = ({handleAdminLogin}) => {
     };
 
     return (
-        <>
-            <Box sx={{position: 'absolute', top: '50%', left: '50%',transform: 'translate(-50%, -50%)', border: "3px solid", borderColor:"rgba(350,0,0)", borderRadius: "20px", width: "525px", height: "600px"}}>
-                <div className="h-1/3">
-                    {/* Insert image later*/}
+        <div className="flex flex-col justify-center items-center gap-3 font-base m-5 min-h-screen min-w-screen">
+            <div className="border-4 border-red-700 rounded-3xl w-1/3">
+                <div className="h-40">
+                    {/* TODO Insert image later*/}
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className= "my-8 flex flex-col items-center">
                         <label htmlFor="username">Username</label>
-                        <input className="border-2 border-zinc-600 opacity-50 hover:border-black rounded-lg w-1/2 mt-1x p-2"
+                        <input className="border-2 border-zinc-600 opacity-50 hover:border-black rounded-lg w-1/2 mt-1 p-2"
                             type="username"
                             id="username"
                             value={username}
@@ -73,8 +72,8 @@ const AdminLogin = ({handleAdminLogin}) => {
                 <div className="flex flex-row-reverse my-5 mr-9">
                     <button onClick={handleAdminLogin} className="text-red-700 rounded-lg border-2 border-red-700 w-16">User</button>
                 </div>
-            </Box>
-        </>
+            </div>
+        </div>
     );
 };
 

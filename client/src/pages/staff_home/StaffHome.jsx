@@ -1,13 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import DeviceInfo from "./DeviceInfo";
-import AdminHome from "../admin_home/AdminHome";
 import api from '../../services/api';
 import { useParams, useLoaderData } from "react-router-dom"
+import { jwtDecode } from 'jwt-decode';
 
-import Button from '@mui/material/Button';
+const Pagination = ({ currentPage, totalPages, onPageChange, type, userId }) => {
+	const pageNumbers = [];
+	for (let i = 1; i <= totalPages; i++) {
+		pageNumbers.push(i);
+	}
+	return (
+		<div className="pagination flex flex-row gap-10 ml-6">
+			{pageNumbers.map((number) => (
+				<button
+				key={number}
+				onClick={() => onPageChange(userId,type,number)}
+				className={`border-2 rounded-full px-2 py-1 text-sm border-black bg-zinc-300 opacity-75 ${number === currentPage ? 'active' : ''}`}
+				>
+				{number}
+			</button>
+			))}
+		</div>
+	);
+};
 
-const UserHome = () => {
+const StaffHome = () => {
+	const classNames = require('classnames')
+	
 	const userId = useLoaderData();
+	const token = localStorage.getItem('token')
+	const decodedToken = jwtDecode(token)
 	const [open, setOpen] = useState(false);
 	const openState = open
 	const [currentEquipment, setCurrentEquipment] = useState(null);
@@ -15,6 +37,7 @@ const UserHome = () => {
 	const [error, setError] = useState('');
 	let [typesList, setTypesList] = useState([]);
     const [equipmentList, setEquipmentList] = useState({});
+	const [refreshState, setRefreshState] = useState(false);
 
 	const handleOpen = (equipment) => {
 		setCurrentEquipment(equipment);
@@ -25,12 +48,17 @@ const UserHome = () => {
 		setCurrentEquipment(null);
 		setOpen(false);
 	};
-	// TODO add id into params later
+
+	const handleChangesAfterClose = () => {
+		setRefreshState(true)
+		setCurrentEquipment(null);
+		setOpen(false);
+	};
+	
 	const fetchTypes = async (id,e) => {
 		try {
             const response = await api.get(`api/research-centers/${id}/equipments`);
 			setTypesList(response.data)
-			
         } catch (error) {
             setError('Fetching failed');
             console.error('Error:', error);
@@ -48,7 +76,6 @@ const UserHome = () => {
 		return current;
 	}, {});
 	
-	//TODO add id into params later
 	const fetchEquipmentList = async (userId,type,pageId,e) =>{
         try {
 			const response = await api.get(`api/research-centers/${userId}/equipments?type=${type}&page=${pageId}&limit=5`);
@@ -91,7 +118,12 @@ const UserHome = () => {
 		if (tempList.length > 0) {
 		    fetchData();
 		}
-	}, [typesList,userId]);
+
+		if(refreshState){
+			fetchData();
+			setRefreshState(false);
+		}
+	}, [typesList,userId, refreshState]);
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
@@ -112,55 +144,59 @@ const UserHome = () => {
 		}));
 	};
 
-	const Pagination = ({ currentPage, totalPages, onPageChange, type, userId }) => {
-		const pageNumbers = [];
-	
-		for (let i = 1; i <= totalPages; i++) {
-			pageNumbers.push(i);
-		}
-	
-		return (
-			<div className="pagination flex flex-row gap-6 justify-between">
-				{pageNumbers.map((number) => (
-					<button
-					key={number}
-					onClick={() => onPageChange(userId,type,number)}
-					className={number === currentPage ? 'active' : ''}
-					>
-					{number}
-				</button>
-				))}
-			</div>
-		);
-	};
-
 	// const { researchcenterid } = useParams();
 
 	return(
 		// TODO make dynamic
-		<div className= "w-full">
-			<div className="flex flex-col items-center bg-zinc-400 p-6">
-				<p>Welcome { userId }</p>
+		<div className= "flex flex-col min-w-screen min-h-screen">
+			<div className="flex flex-col bg-red-800 p-10">
+				<p className="text-white text-2xl">STEERHub REM {"> " + decodedToken.name }</p>
+				{/* <p className="text-white text-md">{decodedToken.code}</p> */}
 			</div>
 			<div className="flex flex-col p-6">
+				{/*Should be a Component*/}
+				<div className="flex flex-col md:flex-row gap-5 md:gap-20 place-content-center text-lg">
+					<div className="text-center">
+						<p>Humidity</p>
+						<p>42°</p>
+					</div>
+					<div className="text-center">
+						<p>Temperature</p>
+						<p>42°</p>
+					</div>
+					<div className="text-center">
+						<p>Rating</p>
+						<p>42°</p>
+					</div>
+				</div>
+
 				{Object.keys(equipmentTypes).map((item,i) => (
 					<div key={i}>
 						<h3 className="text-lg mt-8 font-bold">{item}</h3>
-						<ul className="w-2/5 place-content-center">
-							{equipmentList[item] && equipmentList[item].map((equipment) => (
-							<li key={equipment.id}>
-								<div className="w-1.8/2 text-md mt-2 grid grid-cols-3">
-									<p className="p-1 mr-7 ml-5 col-span-2">
-										{equipment.model}
-									</p>
-									<Button className="p-1 bg-black rounded-md text-white w-1/3 text-sm hover:bg-blue-950" onClick={() => handleOpen(equipment)}>View</Button>
-									{currentEquipment && (
-										<DeviceInfo open={openState} handleClose={handleClose} equipment={currentEquipment ? currentEquipment : ""}/>
-									)}
-								</div>
-							</li>
-							))}
-						</ul>
+						<div className="flex p-6">
+							<ul className="flex flex-col gap-5 w-full justify-between md:flex-row">
+								{equipmentList[item] && equipmentList[item].map((equipment) => (
+								<li key={equipment.id}>
+										<button 
+											className={classNames(
+												"flex p-1 rounded-md text-white text-lg",{
+													"bg-green-800": equipment.status==="available",
+													"bg-red-800": equipment.status==="for repair",
+													"bg-orange-600": equipment.status==="work-in-progress"
+												} 
+											)}
+											onClick={() => handleOpen(equipment)}>{equipment.model}</button>
+										{currentEquipment && (
+											<DeviceInfo 
+												open={openState} 
+												handleClose={handleClose} 
+												equipment={currentEquipment ? currentEquipment : ""}
+												handleChangesAfterClose={handleChangesAfterClose}/>
+										)}
+								</li>
+								))}
+							</ul>
+						</div>
 						<div className="flex flex-row">
 							<Pagination
 									currentPage={currentPage}
@@ -176,21 +212,5 @@ const UserHome = () => {
 		</div>
 	)
 };
-
-const StaffHome = () => {
-	let content;
-	// change later when login logic is complete
-	if (false) {
-		content = <AdminHome />
-	} else {
-		content = <UserHome />
-	}
-
-	return (
-		<>
-			{content}
-		</>
-	)
-}
 
 export default StaffHome;

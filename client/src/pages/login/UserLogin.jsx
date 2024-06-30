@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import { jwtDecode } from 'jwt-decode';
 const Header = () => {
@@ -24,39 +23,31 @@ const UserLogin = ({handleAdminLogin}) => {
                 code: rcCode,
                 password: password
             });
-            console.log('Response:', response.data);
             localStorage.setItem('token', response.data.token);
             if (response.status===200){
                 const token = localStorage.getItem('token')
                 const decodedToken = jwtDecode(token)
-                console.log(decodedToken.id)
                 navigate(`/center/${decodedToken.id}`);
             }
         } catch (error) {
+            setRCCode("")
+            setPassword("")
             setError('Login failed. Please check your credentials and try again.');
             console.error('Error:', error);
         }
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //   // Login logic later
-    //     console.log('RCCode:', rcCode);
-    //     console.log('Password:', password);
-    // };
-
     return (
-        // TODO Make conditional -- switch between admin or user
-        <>
-            <Box sx={{position: 'absolute', top: '50%', left: '50%',transform: 'translate(-50%, -50%)', border: "3px solid", borderColor:"rgba(350,0,0)", borderRadius:"20px", width: "525px", height: "600px"}}>
+        <div className="flex flex-col justify-center items-center gap-3 font-base m-5 min-h-screen min-w-screen">
+            <div className="border-4 border-red-700 rounded-3xl w-1/3">
                 <div>
                     <Header />
                 </div>
                 <div className="p-6">
                     <form onSubmit={handleSubmit}>
-                        <div className= "my-5 flex flex-col items-center">
+                        <div className= "my-5 flex flex-col items-center p-3">
                             <label htmlFor="rcCode">Research Center Code</label>
-                            <input className="border-2 border-zinc-600 opacity-50 hover:border-black rounded-lg w-1/2 mt-1x p-2"
+                            <input className="border-2 border-zinc-600 opacity-50 hover:border-black rounded-lg w-1/2 mt-1 p-2"
                                 type="rcCode"
                                 id="rcCode"
                                 value={rcCode}
@@ -66,7 +57,7 @@ const UserLogin = ({handleAdminLogin}) => {
                             />
                         </div>
                         
-                        <div className= "my-5 flex flex-col items-center">
+                        <div className= "my-5 flex flex-col items-center p-3">
                             <label htmlFor="password">Password</label>
                             <input className="border-2 border-zinc-600 opacity-50 hover:border-black rounded-lg w-1/2 mt-1 p-2"
                                 type="password"
@@ -77,9 +68,7 @@ const UserLogin = ({handleAdminLogin}) => {
                                 placeholder="Password"
                             />
                         </div>
-                        {/* replace later with the actual password reset */}
                         <div className="flex flex-col items-center">
-                            <p className= "text-sm mt-6 font-bold"> Forgot Password? <Link to="/" className="text-blue-500 hover:text-purple-500"> click here</Link></p>
                             <button type="submit" className= "p-1 bg-red-700 rounded-md text-white w-1/6 text-md my-4">Login</button>
                         </div>
                     </form>
@@ -87,8 +76,8 @@ const UserLogin = ({handleAdminLogin}) => {
                         <button onClick={handleAdminLogin} className="text-red-700 border-2 rounded-lg border-red-700 w-16">Admin</button>
                     </div>
                 </div>
-            </Box>
-        </>
+            </div>
+        </div>
     );
 };
 
