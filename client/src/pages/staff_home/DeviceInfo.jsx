@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import {Modal} from '@mui/material';
-// import {Select, MenuItem, InputLabel, FormControl} from '@mui/material'; 
 import api from '../../services/api';
 
 const DeviceInfo = ({open,handleClose,equipment,handleChangesAfterClose}) => {
@@ -104,21 +103,6 @@ const DeviceInfo = ({open,handleClose,equipment,handleChangesAfterClose}) => {
                         <div className="mt-3">
                             <div>
                                 <div className="flex flex-row gap-3 p-2">
-                                    {/* <FormControl fullWidth margin="normal">
-                                        <InputLabel id="equipment-status-label">Status</InputLabel>
-                                        <Select
-                                        labelId="equipment-status-label"
-                                        id="equipment-status"
-                                        name="status"
-                                        value={status}
-                                        onChange={(e) => setStatus(e.target.value)}
-                                        label="Status"
-                                        >
-                                            <MenuItem value="available">Available</MenuItem>
-                                            <MenuItem value="for repair">For Repair</MenuItem>
-                                            <MenuItem value="work-in-progress">Work-In-Progress</MenuItem>
-                                        </Select>
-                                    </FormControl> */}
                                     <label htmlFor="status">Status</label>
 
                                     <button 

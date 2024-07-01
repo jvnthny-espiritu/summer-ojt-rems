@@ -7,6 +7,7 @@ import AdminHome from "./pages/admin_home/AdminHome";
 import StaffHome from "./pages/staff_home/StaffHome"
 import Root from "./pages/Root";
 import ErrorPage from "./pages/error/ErrorPage";
+import PublicDashboard from "./pages/public_dashboard/PublicDashboard";
 
 // Routes
 // /
@@ -37,6 +38,18 @@ const router = createBrowserRouter(
         <Route
           path="/center/:researchcenterid"
           element={ <StaffHome /> }
+          loader= { ({ params }) => {
+            // return fetch(`/api/teams/${params.teamId}.json`);
+            // params += "1"
+
+            // backend logic dito iyon
+            return params.researchcenterid
+          }}
+        />
+
+        <Route
+          path="/public/:researchcenterid"
+          element={ <PublicDashboard /> }
           loader= { ({ params }) => {
             // return fetch(`/api/teams/${params.teamId}.json`);
             // params += "1"
