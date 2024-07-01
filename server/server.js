@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const researchCenterRoutes = require('./routes/researchCenter.route');
 const equipmentRoutes = require('./routes/equipment.route');
+const environmentReadingRoutes = require('./routes/environmentReading.route');
 const authRoutes = require('./routes/auth.route');
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(cors({
 
 app.use('/api/research-centers', researchCenterRoutes);
 app.use('/api/equipments', equipmentRoutes);
+app.use('/api/environment-readings', environmentReadingRoutes);
 app.use('/api/auth', authRoutes);
 
 const startServer = async () => {
