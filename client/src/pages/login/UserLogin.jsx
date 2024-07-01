@@ -4,7 +4,7 @@ import api from '../../services/api';
 import { jwtDecode } from 'jwt-decode';
 const Header = () => {
     return (
-        <header class="header" className="flex flex-col p-6 items-center">
+        <header className="flex flex-col p-6 items-center">
             <h1 className="text-l font-medium">STEERHub</h1>
             <h2 className="text-l font-medium">Staff Log-In</h2>
         </header>

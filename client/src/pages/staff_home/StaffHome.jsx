@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DeviceInfo from "./DeviceInfo";
+import AddDevice from "./AddDevice";
 import api from '../../services/api';
 import { useParams, useLoaderData } from "react-router-dom"
 import { jwtDecode } from 'jwt-decode';
@@ -13,12 +14,12 @@ const Pagination = ({ currentPage, totalPages, onPageChange, type, userId }) => 
 		<div className="pagination flex flex-row gap-10 ml-6">
 			{pageNumbers.map((number) => (
 				<button
-				key={number}
-				onClick={() => onPageChange(userId,type,number)}
-				className={`border-2 rounded-full px-2 py-1 text-sm border-black bg-zinc-300 opacity-75 ${number === currentPage ? 'active' : ''}`}
+					key={number}
+					onClick={() => onPageChange(userId,type,number)}
+					className={`border-2 rounded-full px-2 py-1 text-sm border-black bg-zinc-300 opacity-75 ${number === currentPage ? 'active' : ''}`}
 				>
 				{number}
-			</button>
+				</button>
 			))}
 		</div>
 	);
@@ -38,6 +39,23 @@ const StaffHome = () => {
 	let [typesList, setTypesList] = useState([]);
     const [equipmentList, setEquipmentList] = useState({});
 	const [refreshState, setRefreshState] = useState(false);
+	const [newDeviceOpenState, setNewDeviceOpenState] = useState({});
+
+
+	const toggleCreationModal = (item) => {
+		setNewDeviceOpenState(prevState => ({
+			...prevState,
+			[item]: !prevState[item]
+		}));
+	};
+
+	const handleCreation = (item) => {
+		setRefreshState(true)
+		setNewDeviceOpenState(prevState => ({
+			...prevState,
+			[item]: false
+		}));
+	};
 
 	const handleOpen = (equipment) => {
 		setCurrentEquipment(equipment);
@@ -116,7 +134,7 @@ const StaffHome = () => {
 		};
 	
 		if (tempList.length > 0) {
-		    fetchData();
+			fetchData();
 		}
 
 		if(refreshState){
@@ -170,13 +188,13 @@ const StaffHome = () => {
 					</div>
 				</div>
 
-				{Object.keys(equipmentTypes).map((item,i) => (
-					<div key={i}>
+				{Object.keys(equipmentTypes).map((item) => (
+					<div key={item}>
 						<h3 className="text-lg mt-8 font-bold">{item}</h3>
 						<div className="flex p-6">
 							<ul className="flex flex-col gap-5 w-full justify-between md:flex-row">
 								{equipmentList[item] && equipmentList[item].map((equipment) => (
-								<li key={equipment.id}>
+									<li key={equipment.id}>
 										<button 
 											className={classNames(
 												"flex p-1 rounded-md text-white text-lg",{
@@ -193,8 +211,21 @@ const StaffHome = () => {
 												equipment={currentEquipment ? currentEquipment : ""}
 												handleChangesAfterClose={handleChangesAfterClose}/>
 										)}
-								</li>
+									</li>
 								))}
+								<li>
+									<button 
+										className="flex p-1 rounded-md text-white text-lg bg-black"
+										onClick={() => toggleCreationModal(item)}>ADD
+									</button>
+									<AddDevice
+										handleOpenState = {() => toggleCreationModal(item)}
+										openState ={newDeviceOpenState[item] || false}
+										equipmentType = {item}
+										rcId = {userId}
+										handleCreation = {handleCreation}
+									/>
+								</li>
 							</ul>
 						</div>
 						<div className="flex flex-row">

@@ -1,16 +1,9 @@
 import React, {useState, useEffect} from "react";
-import {Select, MenuItem, InputLabel, FormControl, Modal} from '@mui/material';
+import {Modal} from '@mui/material';
+// import {Select, MenuItem, InputLabel, FormControl} from '@mui/material'; 
 import api from '../../services/api';
 
 const DeviceInfo = ({open,handleClose,equipment,handleChangesAfterClose}) => {
-    let statusClass;
-    if (equipment.status==="available") {
-        statusClass = "p-2 text-green-800"
-    } else if(equipment.status==="for repair") {
-        statusClass = "p-2 text-red-800"
-    } else if(equipment.status==="available"){
-        statusClass = "p-2 text-orange-600"
-    }
     const [editable, setEditable] = useState(false);
 
     const [status, setStatus] = useState("");
@@ -18,7 +11,7 @@ const DeviceInfo = ({open,handleClose,equipment,handleChangesAfterClose}) => {
     const [serialNo, setSerialNo] = useState("");
     const [inventoryNo, setInventoryNo] = useState("");
     const [type, setType] = useState("");
-    const [researchCenterId, setresearchCenterId] = useState(0);
+    const [researchCenterId, setresearchCenterId] = useState("");
 
     const [error, setError] = useState('');
 
@@ -68,10 +61,6 @@ const DeviceInfo = ({open,handleClose,equipment,handleChangesAfterClose}) => {
             setError("Delete Failed.")
             console.error('Error:', error);
         }
-    };
-
-    const handleStatusChange = async (status,e) => {
-        setStatus(status)
     };
 
     const DeleteDialog = ({openState, handleDeleteDialogState}) =>{
@@ -133,18 +122,18 @@ const DeviceInfo = ({open,handleClose,equipment,handleChangesAfterClose}) => {
                                     <label htmlFor="status">Status</label>
 
                                     <button 
-                                        onClick={() => handleStatusChange("available")} 
-                                        className={`p-1 rounded-2xl w-1/5 text-sm ${equipment.status === "available" ? "bg-green-800 text-white": "bg-white border-2 border-green-800 text-green-800"}`}>Available
+                                        onClick={() => setStatus("available")} 
+                                        className={`p-1 rounded-2xl w-1/5 text-sm ${status === "available" ? "bg-green-800 text-white": "bg-white border-2 border-green-800 text-green-800"}`}>Available
                                     </button>
 
                                     <button 
-                                        onClick={() => handleStatusChange("for repair")} 
-                                        className={`p-1 rounded-2xl w-1/4 text-sm ${equipment.status === "for repair" ? "bg-red-800 text-white": "bg-zinc-200 border-2 border-red-800 text-red-800"}`}>For Repair
+                                        onClick={() => setStatus("for repair")} 
+                                        className={`p-1 rounded-2xl w-1/4 text-sm ${status === "for repair" ? "bg-red-800 text-white": "bg-zinc-200 border-2 border-red-800 text-red-800"}`}>For Repair
                                     </button>
 
                                     <button 
-                                        onClick={() => handleStatusChange("work-in-progress")} 
-                                        className={`p-1 rounded-2xl w-1/5 text-sm ${equipment.status === "work-in-progress" ? "bg-orange-600 text-white": "bg-zinc-200 border-2 border-orange-600 text-orange-600"}`}>Work In Progress
+                                        onClick={() => setStatus("work-in-progress")} 
+                                        className={`p-1 rounded-2xl w-1/5 text-sm ${status === "work-in-progress" ? "bg-orange-600 text-white": "bg-zinc-200 border-2 border-orange-600 text-orange-600"}`}>Work In Progress
                                     </button>
                                 </div>
                                 <div className="flex flex-row gap-3 p-2">
