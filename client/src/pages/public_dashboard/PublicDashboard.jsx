@@ -9,7 +9,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, type, userId }) => 
 		pageNumbers.push(i);
 	}
 	return (
-		<div className="pagination flex flex-row gap-10 ml-6">
+		<div className="pagination flex flex-row gap-3 ml-6">
 			{pageNumbers.map((number) => (
 				<button
 					key={number}
@@ -30,8 +30,9 @@ const PublicDashboard = () => {
 	const [openState, setOpenState] = useState(false);
 
 	const [error, setError] = useState('');
+    const [rcName, setRCName] = useState('');
     const [currentEquipment, setCurrentEquipment] = useState(null);
-	let [typesList, setTypesList] = useState([]);
+	const [typesList, setTypesList] = useState([]);
     const [equipmentList, setEquipmentList] = useState({});
 
 	const handleOpen = (equipment) => {
@@ -77,6 +78,13 @@ const PublicDashboard = () => {
 
     useEffect(() => {
 		fetchTypes(userId);
+
+        const fetchResarchCenterName = async(rcId,e) => {
+            const response = await api.get(`api/research-centers/${rcId}`)
+            setRCName(response.data.name)
+        };
+
+        fetchResarchCenterName(userId);
 	}, [userId]);
 	
 	useEffect(() => {
@@ -129,10 +137,11 @@ const PublicDashboard = () => {
 	};
 
 	return(
-		<div className= "flex flex-col min-w-screen min-h-screen">
+		<div className= "flex flex-col min-w-screen min-h-screen font-base">
 			<div className="flex flex-col bg-red-800 p-10">
-				<p className="text-white text-2xl">STEERHub REM {"> " + userId}</p>
+				<p className="text-white text-4xl text-justify">{"STEERHub REM  > " + rcName}</p>
 			</div>
+			
 			<div className="flex flex-col p-6">
 				{/*Should be a Component*/}
 				<div className="flex flex-col md:flex-row gap-5 md:gap-20 place-content-center text-lg">
@@ -150,43 +159,52 @@ const PublicDashboard = () => {
 					</div>
 				</div>
 
-				{Object.keys(equipmentTypes).map((item) => (
-					<div key={item}>
-						<h3 className="text-lg mt-8 font-bold">{item}</h3>
-						<div className="flex p-6">
-							<ul className="flex flex-col gap-5 w-full justify-between md:flex-row">
-								{equipmentList[item] && equipmentList[item].map((equipment) => (
-									<li key={equipment.id}>
-										<button 
-											className={classNames(
-												"flex p-1 rounded-md text-white text-lg",{
-													"bg-green-800": equipment.status==="available",
-													"bg-red-800": equipment.status==="for repair",
-													"bg-orange-600": equipment.status==="work-in-progress"
-												} 
+				<div className="flex flex-col gap-5">
+					{Object.keys(equipmentTypes).map((item) => (
+						<div key={item}>
+							<div className="self-center text-3xl font-bold">
+								{item}
+							</div>
+							
+							<div className="p-6">
+								<ul className="flex flex-col gap-5 w-full justify-evenly md:flex-row">
+									{equipmentList[item] && equipmentList[item].map((equipment) => (
+										<li key={equipment.id}>
+											<button 
+												className={classNames(
+													"p-1 rounded-md text-white text-lg",{
+														"bg-green-800": equipment.status==="available",
+														"bg-red-800": equipment.status==="for repair",
+														"bg-orange-600": equipment.status==="work-in-progress"
+													} 
+												)}
+												onClick={() => handleOpen(equipment)}>
+													{equipment.model}
+													<hr />
+													{equipment.status}
+											</button>
+											{currentEquipment && (
+												<PublicDeviceView 
+													openState={openState} 
+													handleClose={handleClose} 
+													equipment={currentEquipment ? currentEquipment : ""}/>
 											)}
-											onClick={() => handleOpen(equipment)}>{equipment.model}</button>
-										{currentEquipment && (
-											<PublicDeviceView 
-												openState={openState} 
-												handleClose={handleClose} 
-												equipment={currentEquipment ? currentEquipment : ""}/>
-										)}
-									</li>
-								))}
-							</ul>
+										</li>
+									))}
+								</ul>
+							</div>
+							<div className="flex flex-row justify-end">
+								<Pagination
+										currentPage={currentPage}
+										totalPages={totalPages[item]}
+										onPageChange={handlePageChange}
+										type={item}
+										userId={userId}
+								/>
+							</div>
 						</div>
-						<div className="flex flex-row">
-							<Pagination
-									currentPage={currentPage}
-									totalPages={totalPages[item]}
-									onPageChange={handlePageChange}
-									type={item}
-									userId={userId}
-							/>
-						</div>
-					</div>
-				))}
+					))}
+				</div>
 			</div>
 		</div>
 	)

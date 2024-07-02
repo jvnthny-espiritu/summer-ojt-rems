@@ -203,7 +203,7 @@ const StaffHome = () => {
 										className="flex py-1 px-3 rounded-md text-white text-lg bg-black"
 										onClick={() => toggleCreationModal(item)}
 									>
-										ADD Equipmentx
+										ADD Equipment
 									</button>
 									<AddDevice
 										handleOpenState = {() => toggleCreationModal(item)}
